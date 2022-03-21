@@ -38,14 +38,16 @@ const ViewerPage = () => {
 		e.target.value = ""
 	} 
 	const keyEvent = ((e) =>{
+		//space
 		if ((e.keyCode == 32) && e.target.value.trim() !== '') {
 			addHashtag(e)
 		}
+		// enter
 		if ((e.keyCode == 13) && e.target.value.trim() !== '') {
 			addHashtag(e)
 		}
-		if (e.target.value == "" && e.keyCode == 8 ) {
-			e.preventDefault()
+		//backspace
+		if ((e.keyCode == 8) && e.target.value == "") {
 			deleteLastHashtag()
 		}
 	})
