@@ -42,14 +42,14 @@ class UserStore {
 	
 	async #setSignup (request) {
 		try {
-			const response = await axios.post('https://ability-backend.azurewebsites.net/users', request);
+			const response = await axios.post(`${process.env.REACT_APP_API_URL}/users`, request);
 		} catch (err) {
 			console.log(err)
 		}
   }
 	async #setLogin (request) {
 		try {
-			const response = await axios.post('https://ability-backend.azurewebsites.net/login', request);
+			const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, request);
 			this.online = true;
 		} catch (err) {
 			console.log(err)
@@ -58,7 +58,7 @@ class UserStore {
 
 	async #setLogout () {
 		try {
-			axios.post('https://ability-backend.azurewebsites.net/logout');
+			axios.post(`${process.env.REACT_APP_API_URL}/logout`);
 			this.online = false;
 		} catch (err) {
 			console.log(err);

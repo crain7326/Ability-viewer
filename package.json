@@ -7,6 +7,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.0",
+    "cross-env": "^7.0.3",
     "mobx": "^6.4.1",
     "mobx-react": "^7.3.0",
     "react": "^17.0.2",
@@ -16,7 +17,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env REACT_APP_API_URL=https://ability-backend.azurewebsites.net react-scripts start",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "linuxBuild": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
