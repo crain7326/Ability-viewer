@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
+import { setCookie } from '../api/cookie';
 
 const LoginPage = () => {
 	const {userStore} = indexStore();
@@ -13,8 +14,13 @@ const LoginPage = () => {
 	const [loginPw, setLoginPw] = useState("")
 
 	
-		userStore.online && navigate('/') 
-	
+	async function handleLogin() {
+		const response = await userStore.handleLogin(loginId,loginPw);
+		if(response) navigate('/');
+		setCookie('TOKEN', response.data.token);
+		return;
+	};
+
 	return (
 		<div id='loginPage'>
 			<div className='px-24 py-24 w-full flex f-column f-ai-center'>
@@ -42,7 +48,7 @@ const LoginPage = () => {
 					<button 
 					className='unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8'
 					style={{textAlign: 'center', cursor: 'pointer'}}
-					onClick={()=>{userStore.handleLogin(loginId,loginPw)}}>로그인</button>
+					onClick={handleLogin}>로그인</button>
 				</form>
 
 				<Link to="/find_user">아이디 | 비밀번호 찾기</Link>

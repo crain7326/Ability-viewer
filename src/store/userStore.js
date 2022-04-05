@@ -28,12 +28,16 @@ class UserStore {
 		};
 		this.#setSignup(request);
 	}
-  handleLogin (id, pw) {
+  async handleLogin (id, pw) {
 		const request = {
 			"id" : id,
 			"password" : pw
 		};
-		this.#setLogin(request);
+		const response = await this.#setLogin(request);
+
+		if(response.status === 200) return response;
+		
+		return false;
 	}
 
 	handleLogout () {
@@ -51,6 +55,8 @@ class UserStore {
 		try {
 			const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, request);
 			this.online = true;
+
+			return response;
 		} catch (err) {
 			console.log(err)
 		}
