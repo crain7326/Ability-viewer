@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
 import { setCookie } from '../api/cookie';
+import LabelInput from '../components/LabelInput';
 
 const LoginPage = () => {
 	const {userStore} = indexStore();
@@ -25,24 +26,23 @@ const LoginPage = () => {
 		<div id='loginPage'>
 			<div className='px-24 py-24 w-full flex f-column f-ai-center'>
 				<form onSubmit={e => e.preventDefault()}>
-					<label htmlFor="IoginId">아이디</label>
-					<input type="text" 
-					id="loginId"
-					className=' border-box w-full bg-white br-8 px-16 py-12 b-400 my-8 active-b-800 pretendard fs-16' 
-					placeholder="아이디를 입력하세요" 
-					onChange={(e)=>{setLoginId(e.target.value)}}
-					required>
-					</input>
 
-					<label htmlFor="pw">비밀번호</label>
-					<input type="password" 
-					id="loginPw"
-					className='unset border-box w-full bg-white br-8 px-16 py-12 b-400 my-8 active-b-800 pretendard fs-16' 
-					placeholder="비밀번호 8글자 이상 입력하세요"
-					minLength={8}
-					onChange={(e)=>{setLoginPw(e.target.value)}}
-					required>
-					</input>
+					<LabelInput 
+						label='아이디'
+						name='username'
+						placeholder="아이디를 입력하세요" 
+						onChange={(e)=>{setLoginId(e.target.value)}}
+						required
+					/>
+
+					<LabelInput 
+						label='비밀번호'
+						name='password'
+						onChange={(e)=>{setLoginPw(e.target.value)}}
+						minLength={8}
+						placeholder="비밀번호 8글자 이상 입력하세요" 
+						required
+					/>
 					
 					<div className='errorBox' style={{color:"red"}}></div>
 					<button 
