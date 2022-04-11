@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
-import LabelInput from '../components/LabelInput';
+import LabelInput from '../components/common/LabelInput';
 
 const SignupPage = () => {
 	const {userStore} = indexStore();
@@ -39,7 +39,7 @@ const SignupPage = () => {
 						placeholder='이메일을 입력하세요'
 						onChange={onChangeEmail} 
 						required
-					/>
+						/>
 					<datalist id="email">
 						{emailList && emailList.map((email, idx)=> (
 							<option value={email} key={idx}/>
@@ -52,7 +52,7 @@ const SignupPage = () => {
 						placeholder='이메일을 입력하세요'
 						onChange={(e)=>{setSignupId(e.target.value)}} 
 						required
-					/>
+						/>
 
 					<LabelInput 
 						label='비밀번호'

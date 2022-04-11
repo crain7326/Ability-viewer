@@ -1,5 +1,5 @@
 import React from 'react'
-import Hashtag from '../components/Hashtag'
+import Hashtag from '../components/common/Hashtag'
 
 const ListPage = () => {
 	return (

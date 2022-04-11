@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { LogoFull } from './Logo'
 
-import indexStore from '../store/indexStore'
+import indexStore from '../../store/indexStore'
 import { observer } from 'mobx-react' 
 
 const Header = () => {

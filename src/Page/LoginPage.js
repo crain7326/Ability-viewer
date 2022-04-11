@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
 import { setCookie } from '../api/cookie';
-import LabelInput from '../components/LabelInput';
+import LabelInput from '../components/common/LabelInput';
 
 const LoginPage = () => {
 	const {userStore} = indexStore();

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import logoShort from '../asset/icon.png'
-import logoFull from '../asset/logo.png'
+import logoShort from '../../asset/icon.png'
+import logoFull from '../../asset/logo.png'
 
 // (A) 이니셜 한 글자만 
 export const LogoShort = () => {
