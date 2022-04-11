@@ -3,10 +3,12 @@ import React, { useState } from 'react'
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
 import LabelInput from '../components/common/LabelInput';
+import Notification from '../components/common/Notification';
 
 const SignupPage = () => {
 	const {userStore} = indexStore();
 
+	const [error, setError] = useState(null)
 	const [signupEmail,setSignupEmail] = useState('')
 	const [emailList,setEmailList] = useState()
 	const [signupId, setSignupId ] = useState('')
@@ -26,6 +28,39 @@ const SignupPage = () => {
 		))
 	}
 	
+	const onSubmit = async() => {
+		setError(null);
+		// validate
+		const validation = {
+			email : (text) => {
+				if (text === '') {
+					return '이메일을 입력해주세요'
+				}
+			},
+			id : (text) => {
+				if (!/^[a-z0-9-_]{3,16}$/.test(text)) {
+					return '아이디는 3~16자의 알파벳,숫자,혹은 - _ 으로 이루어져야 합니다.';
+				}
+			},
+			password : (text) => {
+				if (!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-_])(?=.*[0-9]).{8,16}/.test(text)) {
+					return '비밀번호는 8~16자 알파벳,특수기호,숫자로 이루어져야 합니다.'
+				}
+			}
+		};
+
+		const error = 
+			validation.email(signupEmail) ||
+			validation.id(signupId) ||
+			validation.password(signupPw) ||
+			null;
+		
+		if (error) {
+			setError(error)
+			return;
+		} 
+	}
+
 
 	return (
 		<div>
@@ -34,12 +69,12 @@ const SignupPage = () => {
 				<fieldset>
 					<LabelInput 
 						label='이메일'
+						type='email'
 						name='email'
 						list='email' 
 						placeholder='이메일을 입력하세요'
 						onChange={onChangeEmail} 
-						required
-						/>
+					/>
 					<datalist id="email">
 						{emailList && emailList.map((email, idx)=> (
 							<option value={email} key={idx}/>
@@ -48,31 +83,27 @@ const SignupPage = () => {
 					
 					<LabelInput 
 						label='아이디'
-						name='username'
-						placeholder='이메일을 입력하세요'
+						type='text'
+						name='id'
+						placeholder='3~16자의 알파벳,숫자,혹은 특수기호(- _) '
 						onChange={(e)=>{setSignupId(e.target.value)}} 
-						required
-						/>
+					/>
 
 					<LabelInput 
 						label='비밀번호'
+						type='password'
 						name='pasword'
-						placeholder='비밀번호 8글자 이상 입력하세요'
+						placeholder='8~16자 알파벳,특수기호,숫자'
 						onChange={(e)=>{setSignupPw(e.target.value)}} 
-						minLength={8}
-						required
 					/>
 					
 					<LabelInput 
 						label='비밀번호 재입력'
+						type='password'
 						name='pasword2'
-						placeholder='비밀번호 8글자 이상 입력하세요'
-						minLength={8}
-						required
+						placeholder='8~16자 알파벳,특수기호,숫자'
 					/>
 				</fieldset>
-				
-				
 				<fieldset>
 					<label className='flex f-ai-center py-8'>
 						<input type='checkbox' required />
@@ -90,12 +121,20 @@ const SignupPage = () => {
 					</label>
 				</fieldset>
 				<button 
+				id='signupBtn'
 				className='unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8' 
 				type='submit'
 				style={{textAlign: 'center', cursor: 'pointer'}}
-				onClick={()=>{userStore.handleSignup(signupId, signupEmail, signupPw)}}
+				onClick={()=>{
+					userStore.handleSignup(signupId, signupEmail, signupPw)
+					onSubmit()
+				}}
 				>회원가입</button>
 			</form>
+			
+			<Notification 
+				message={error}
+			></Notification>
 			</div>
 		</div>
 	)
