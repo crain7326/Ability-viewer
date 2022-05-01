@@ -5,10 +5,6 @@
 /.pnp
 .pnp.js
 
-# favicon
-/src/asset/favicon
-/src/asset/favicon-white
-
 # testing
 /coverage
 
