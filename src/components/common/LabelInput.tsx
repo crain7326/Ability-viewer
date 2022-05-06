@@ -1,6 +1,20 @@
 import React, {useState, useCallback} from 'react'
 
-function LabelInput({label, name, value, placeholder, onChange, disabled, ...rest}) {
+type InputProps = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
+
+export interface LabelInputProps{
+	label : string;
+	name? : string;
+	value? : string;
+	placeholder? : string;
+	onChange?: React.ChangeEventHandler;
+	disabled?:any;
+}
+
+const LabelInput: React.FC<LabelInputProps> = ({label, name, value, placeholder, onChange, disabled, ...rest}) => {
   const [focus, setFocus] = useState(false);
 
 	const onFocus = useCallback(() => {
@@ -9,6 +23,7 @@ function LabelInput({label, name, value, placeholder, onChange, disabled, ...res
   const onBlur = useCallback(() => {
     setFocus(false);
   }, []);
+
 
 	return (
 		<>
@@ -20,7 +35,6 @@ function LabelInput({label, name, value, placeholder, onChange, disabled, ...res
 			value={value}
 			placeholder={placeholder}
 			onFocus={onFocus}
-			onBlur={onBlur}
 			disabled={disabled}
 			{...rest}
 		/>
