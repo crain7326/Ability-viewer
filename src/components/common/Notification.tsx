@@ -1,10 +1,10 @@
 import React from 'react'
 
-export interface NotificationProps  {
-	message: string
+ interface NotificationProps  {
+	message: string 
 }	
 
-const Notification : React.FC<NotificationProps> = ({message}) => {
+const Notification  = ({message} : NotificationProps) => {
 	return (
 		<>
 			<p>{message}</p>

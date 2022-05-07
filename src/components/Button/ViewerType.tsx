@@ -5,7 +5,7 @@ export interface ViewerTypeProps  {
   isSelected : boolean
 }	
 
-const ViewerType : React.FC<ViewerTypeProps>= ({ type, isSelected }) => {
+const ViewerType = ({ type, isSelected } : ViewerTypeProps) => {
   const { optionStore } = indexStore();
 
   return (

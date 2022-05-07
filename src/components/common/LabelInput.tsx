@@ -14,7 +14,7 @@ export interface LabelInputProps{
 	list?: string;
 }
 
-const LabelInput: React.FC<LabelInputProps> = ({label, name, value, placeholder, onChange, disabled, ...rest}) => {
+const LabelInput = ({label, name, value, placeholder, onChange, disabled, ...rest} : LabelInputProps) => {
   const [focus, setFocus] = useState(false);
 
 	const onFocus = useCallback(() => {
