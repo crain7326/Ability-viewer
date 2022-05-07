@@ -1,6 +1,11 @@
 import indexStore from "../../store/indexStore";
 
-const ViewerType= ({ type, isSelected }) => {
+export interface ViewerTypeProps  {
+	type: string,
+  isSelected : boolean
+}	
+
+const ViewerType : React.FC<ViewerTypeProps>= ({ type, isSelected }) => {
   const { optionStore } = indexStore();
 
   return (

@@ -1,17 +1,17 @@
 import React, {useState, useCallback} from 'react'
 
-type InputProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
+
 
 export interface LabelInputProps{
 	label : string;
 	name? : string;
+	type? : string;
 	value? : string;
 	placeholder? : string;
 	onChange?: React.ChangeEventHandler;
-	disabled?:any;
+	disabled?: any;
+	required?: any;
+	list?: string;
 }
 
 const LabelInput: React.FC<LabelInputProps> = ({label, name, value, placeholder, onChange, disabled, ...rest}) => {
