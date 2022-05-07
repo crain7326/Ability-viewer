@@ -38,7 +38,7 @@ const SignupPage = () => {
   };
 
   const onSubmit = async () => {
-    setError(null);
+    setError(' ');
     // validate
     const validation = {
       email: (text: string) => {
@@ -100,7 +100,7 @@ const SignupPage = () => {
               type="text"
               name="id"
               placeholder="3~16자의 알파벳,숫자,혹은 특수기호(- _) "
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setSignupId(e.target.value);
               }}
             />
@@ -110,7 +110,7 @@ const SignupPage = () => {
               type="password"
               name="pasword"
               placeholder="8~16자 알파벳,특수기호,숫자"
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setSignupPw(e.target.value);
               }}
             />

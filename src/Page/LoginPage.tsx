@@ -47,7 +47,6 @@ const LoginPage = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setLoginPw(e.target.value);
             }}
-            minLength={8}
             value="null"
             disabled="false"
             placeholder="비밀번호 8글자 이상 입력하세요"
