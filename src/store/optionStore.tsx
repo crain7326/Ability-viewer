@@ -28,17 +28,16 @@ class OptionStore {
   lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
   // 사용자 입력 Text
   text = '';
-  setText(_text:string) {
+  setText(_text:string | undefined) {
     this.text = _text;
   };
   // 입력한 text 배열
   textBundle = [];
-  setTextBundle(_text: string[]) {
-    if(typeof(_text) !== 'string') return false;
-  
+  setTextBundle(_text: string) {
+
     const text = _text.replace(/(\r\n|\n|\r)/gm, '<BR>');
     const arr = text.split('<BR>');
-    const textBundle = arr.filter(text => text !== '');
+    const textBundle : string[] = arr.filter(text => text !== '');
     this.textBundle = textBundle;
   };
 
