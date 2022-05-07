@@ -22,7 +22,7 @@ class DetailStore {
   }
 
   // private 해시태그 설정
-  async #setHashtagPrivate(request) {
+  async #setHashtagPrivate(request:any) {
     const response = await axios.post(`${process.env.REACT_APP_API_URL}/tags`, request);
     this.hashtag = response.data;
     return true;

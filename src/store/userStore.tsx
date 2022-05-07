@@ -17,7 +17,7 @@ class UserStore {
     });
   }
 
-  handleSignup(id, email, pw) {
+  handleSignup(id: string , email: string , pw: string) {
     const request = {
       id: id,
       email: email,
@@ -25,12 +25,12 @@ class UserStore {
     };
     this.#setSignup(request);
   }
-  async handleLogin(id, pw) {
+  async handleLogin(id: string, pw: string) {
     const request = {
       id: id,
       password: pw,
     };
-    const response = await this.#setLogin(request);
+    const response: any  = await this.#setLogin(request);
 
     if (response.status === 200) return response;
 
@@ -41,7 +41,7 @@ class UserStore {
     this.#setLogout();
   }
 
-  async #setSignup(request) {
+  async #setSignup(request: object) {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/users`,
@@ -51,7 +51,7 @@ class UserStore {
       console.log(err);
     }
   }
-  async #setLogin(request) {
+  async #setLogin(request: object) {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
