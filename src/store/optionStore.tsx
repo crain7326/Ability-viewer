@@ -6,7 +6,7 @@ configure({ enforceActions: 'observed' });
 // singleton pattern
 class OptionStore {
   static exist = false;
-  static instance;
+  static instance: any;
 
   fontSizeNum = 5;
   paragraphHeigthNum = 1;
@@ -15,7 +15,7 @@ class OptionStore {
   // 글꼴
   fontFamily = '바탕';
 
-  setFontFamily(type) {
+  setFontFamily(type: string) {
     if(typeof(type) !== 'string') return;
     this.fontFamily = type;
   }
@@ -28,17 +28,16 @@ class OptionStore {
   lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
   // 사용자 입력 Text
   text = '';
-  setText(_text) {
+  setText(_text:string | undefined) {
     this.text = _text;
   };
   // 입력한 text 배열
   textBundle = [];
-  setTextBundle(_text) {
-    if(typeof(_text) !== 'string') return false;
-  
+  setTextBundle(_text: string) {
+
     const text = _text.replace(/(\r\n|\n|\r)/gm, '<BR>');
     const arr = text.split('<BR>');
-    const textBundle = arr.filter(text => text !== '');
+    const textBundle : string[] = arr.filter(text => text !== '');
     this.textBundle = textBundle;
   };
 
@@ -59,12 +58,12 @@ class OptionStore {
   });
 
   // param: viewer.ridi or kakao
-  setViewerType(type) {
+  setViewerType(type: string) {
     if(typeof(type) !== 'string') return;
     this.viewerType = type;
   }
 
-  optionPlus(type) {
+  optionPlus(type: string) {
     switch (type) {
       case this.optionType.fontSize:
         if(this.fontSizeNum === 12) return;
@@ -86,9 +85,9 @@ class OptionStore {
     }
   };
 
-  optionMinus(type) {
+  optionMinus(type: string) {
     switch (type) {
-      case this.optionType.fontSize:
+      case this.optionType.fontSize : number:
         if(this.fontSizeNum === 1) return;
         this.fontSizeNum--;
         this.fontSize = `ridi_fs_${this.fontSizeNum}`;

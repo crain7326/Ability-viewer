@@ -4,7 +4,7 @@ import ListPage from "./Page/ListPage";
 import LoginPage from "./Page/LoginPage";
 import Mypage from "./Page/Mypage";
 import SignupPage from "./Page/SignupPage";
-import ViewerPage from "./Page/ViewerPage.js";
+import ViewerPage from "./Page/ViewerPage";
 import ViewerAll from "./Page/ViewerAll";
 import FindUserPage from "./Page/FindUserPage";
 

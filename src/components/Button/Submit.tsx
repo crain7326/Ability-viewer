@@ -3,7 +3,12 @@ const submitType = Object.freeze({
   register: 'register'
 });
 
-const Submit = ({ type, value }) => {
+export interface SubmitProps  {
+	type: string,
+  value : string
+}	
+
+const Submit = ({ type, value }: SubmitProps) => {
   return (
     <button 
       className='unset br-12 b-500 bg-500 tc-50 w-full' 

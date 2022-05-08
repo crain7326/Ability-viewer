@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { LogoFull } from './Logo'
 
@@ -13,7 +12,7 @@ const Header = () => {
 			<h1>
 				<LogoFull />
 			</h1> 
-			<nav name='nav' className='pr-24'>
+			<nav id='nav' className='pr-24'>
 				{userStore.online 
 				?
 				<>

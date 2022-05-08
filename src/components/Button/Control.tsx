@@ -1,6 +1,10 @@
 import indexStore from "../../store/indexStore";
 
-function ControlMinus({type}) {
+export interface ControlType  {
+	type: string
+}	 
+
+function ControlMinus({type}: ControlType) {
   const { optionStore } = indexStore();
   return (
     <button
@@ -12,7 +16,7 @@ function ControlMinus({type}) {
   )
 };
 
-function ControlPlus({type}) {
+function ControlPlus({type}: ControlType) {
   const { optionStore } = indexStore();
   return (
     <button
@@ -26,7 +30,7 @@ function ControlPlus({type}) {
 };
 
 
-const Control = ({type}) => {
+const Control = ({type}: ControlType) => {
   return (
     <div 
       className='control_wrap fs-16'
