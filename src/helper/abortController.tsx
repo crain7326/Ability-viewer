@@ -43,10 +43,9 @@ class FetchAbortController {
         return;
       }
 
-      resolve(process.env.REACT_APP_API_URL);
-      // fetch(`${process.env.REACT_APP_API_URL}/${_url}`, _options)
-      //   .then((res) => resolve(res.json()))
-      //   .catch((err) => reject(err));
+      fetch(`${process.env.REACT_APP_API_URL}/${_url}`, _options)
+        .then((res) => resolve(res.json()))
+        .catch((err) => reject(err));
 
       _signal.addEventListener('abort', () => {
         reject(ERROR);
