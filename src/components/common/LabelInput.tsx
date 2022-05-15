@@ -7,8 +7,7 @@ export interface ILabelInputProps {
   value?: string;
   placeholder?: string;
   onChange?: React.ChangeEventHandler;
-  disabled?: any;
-  required?: any;
+  disabled?: boolean;
   list?: string;
 }
 
@@ -21,15 +20,6 @@ const LabelInput = ({
   disabled,
   ...rest
 }: ILabelInputProps) => {
-  const [focus, setFocus] = useState(false);
-
-  const onFocus = useCallback(() => {
-    setFocus(true);
-  }, []);
-  const onBlur = useCallback(() => {
-    setFocus(false);
-  }, []);
-
   return (
     <>
       <label>{label}</label>
@@ -39,7 +29,6 @@ const LabelInput = ({
         onChange={onChange}
         value={value}
         placeholder={placeholder}
-        onFocus={onFocus}
         disabled={disabled}
         {...rest}
       />
