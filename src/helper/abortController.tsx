@@ -24,7 +24,7 @@ class FetchAbortController {
 
     this.#abortController = new AbortController();
 
-    const result = await this.#abortFetch(
+    const result: any = await this.#abortFetch(
       this.#abortController.signal,
       _url,
       _options
