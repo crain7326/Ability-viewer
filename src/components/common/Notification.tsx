@@ -1,15 +1,15 @@
-import React from 'react'
+import React from "react";
 
- interface NotificationProps  {
-	message: string 
-}	
-
-const Notification  = ({message} : NotificationProps) => {
-	return (
-		<>
-			<p>{message}</p>
-		</>
-	)
+interface INotificationProps {
+  message: string;
 }
 
-export default Notification
+const Notification = ({ message }: INotificationProps) => {
+  return (
+    <>
+      <p>{message}</p>
+    </>
+  );
+};
+
+export default Notification;
