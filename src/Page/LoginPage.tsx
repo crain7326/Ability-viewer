@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { observer } from 'mobx-react';
 import indexStore from '../store/indexStore';
-import { setCookie } from '../api/cookie';
 import LabelInput from '../components/common/LabelInput';
 
 const LoginPage = () => {
@@ -18,9 +17,6 @@ const LoginPage = () => {
   async function handleLogin() {
     const response = await userStore.handleLogin(loginId, loginPw);
     if (response) navigate('/', { replace: true });
-
-    // 2022.05.01(일) store migration 후 가능
-    setCookie('TOKEN', response.data.token);
 
     return;
   }
