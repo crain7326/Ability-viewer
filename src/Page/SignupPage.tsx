@@ -49,7 +49,6 @@ const SignupPage = () => {
     }
   };
 
-  // 2022.05.02(월) LabelInput migration 후 가능
   return (
     <div>
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
