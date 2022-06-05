@@ -2,7 +2,7 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import LabelInput from "../common/LabelInput";
 
 export interface EmailInpurProps {
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: any;
 }
 
 const EmailInput = ({ setValue }: EmailInpurProps) => {
@@ -26,9 +26,7 @@ const EmailInput = ({ setValue }: EmailInpurProps) => {
         : e.target.value + email
     );
     setEmailList(userEmails);
-    userEmails.map(
-      (email) => e.target.value == email && setValue(e.target.value)
-    );
+    setValue("email", e.target.value);
   };
 
   return (
