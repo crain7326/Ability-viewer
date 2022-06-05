@@ -1,7 +1,6 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 
 import { observer } from "mobx-react";
-import indexStore from "../store/indexStore";
 import LabelInput from "../components/common/LabelInput";
 import EmailInput from "../components/container/EmailInput";
 import PrivacyForm from "../components/container/PrivacyForm";
@@ -18,7 +17,6 @@ const SignupPage = () => {
       return { ...prevState, [type]: value };
     });
   };
-  console.log(user);
 
   return (
     <div>

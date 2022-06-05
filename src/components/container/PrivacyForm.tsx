@@ -5,11 +5,16 @@ import { observer } from "mobx-react";
 import indexStore from "../../store/indexStore";
 
 export interface PrivacyFormProps {
-  user: any;
+  user: {
+    id: string;
+    pw: string;
+    email: string;
+  };
 }
 
 const PrivacyForm = ({ user }: PrivacyFormProps) => {
   const [error, setError] = useState<string>("");
+  const [active, setActive] = useState<boolean>(false);
   const { userStore } = indexStore();
 
   const onSubmit = async () => {
@@ -57,11 +62,14 @@ const PrivacyForm = ({ user }: PrivacyFormProps) => {
         <a
           className="ml-8"
           style={{ borderBottom: "1px solid black", cursor: "pointer" }}
+          onClick={() => {
+            setActive(!active);
+          }}
         >
           보기
         </a>
       </div>
-      <ul className="hidden">
+      <ul className={active ? "" : "hidden"}>
         <li>수집 목적 회원제 서비스 제공 및 유지 • 관리</li>
         <li>
           수집 항목 이메일 비밀번호, 로그인ID, 이름, 서비스 이용 기록, 접속
