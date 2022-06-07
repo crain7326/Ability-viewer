@@ -1,7 +1,58 @@
-import React from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import Hashtag from '../components/common/Hashtag';
 
+declare var process: {
+  env: {
+    REACT_APP_API_URL: string;
+  };
+};
+
+interface ResponseBooks {
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+  links: {
+    book: string;
+    delete: string;
+  };
+  tags: string[];
+}
+
+// 임시. 로그인 처리 작업 후 localStorage에 저장된 토큰 가져다 쓸 예정!
+const devToken =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjJjMmYxODE5NDUyMTFlZjMxNGQ0MjQiLCJpYXQiOjE2NTQ2MDY3OTIsImV4cCI6MTY1NzE5ODc5Mn0.lZWX2p7_TJVtsU_VjBpK1AZWlopefXIucegL5yIoXSs';
+
+const options = {
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${devToken}`,
+  },
+};
+
 const ListPage = () => {
+  const [books, setBooks] = useState<ResponseBooks[]>([]);
+  const [tags, setTags] = useState(['']);
+
+  const fetchAllBooks = async () => {
+    const allBooks = await axios.get(
+      `${process.env.REACT_APP_API_URL}/books`,
+      options
+    );
+    setBooks(allBooks.data.books);
+  };
+
+  const combineTags = async () => {
+    const allTags: string[] = [];
+    books.map((book: any) => [allTags, ...book.tags]);
+    setTags(allTags);
+  };
+
+  useEffect(() => {
+    fetchAllBooks();
+    combineTags();
+  }, []);
+
   return (
     <>
       <div className="p-24 h-full">
@@ -13,27 +64,11 @@ const ListPage = () => {
               className="pl-4 py-8 flex"
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
-              <li>
-                <Hashtag text="베세랑만남" />
-              </li>
-              <li>
-                <Hashtag text="삽화" />
-              </li>
-              <li>
-                <Hashtag text="큰세가움ㅠㅠ" />
-              </li>
-              <li>
-                <Hashtag text="룸메이트" />
-              </li>
-              <li>
-                <Hashtag text="공포방송" />
-              </li>
-              <li>
-                <Hashtag text="공포방송" />
-              </li>
-              <li>
-                <Hashtag text="공포방송" />
-              </li>
+              {tags.length > 0 ? (
+                tags.map((tag) => <Hashtag text={tag} />)
+              ) : (
+                <p>태그가 없습니다.</p>
+              )}
             </ul>
           </article>
 
@@ -48,38 +83,28 @@ const ListPage = () => {
             <section>
               <h3 className="hidden">글 목록</h3>
               <ul>
-                <li className="pt-16">
-                  <div className="bookHeader flex f-ai-end">
-                    <h5 className="font-bold">데뷔 못하면 죽는 병 걸림 1화</h5>
-                    <span className="tc-500 ml-4 fs-14">2021.12.31</span>
-                  </div>
-                  <div
-                    className="hashtagBox pt-8 pb-16 flex f-wrap"
-                    style={{ borderBottom: '1px solid var(--gray--300)' }}
-                  >
-                    <Hashtag text="큰세등장" />
-                    <Hashtag text="삽화" />
-                    <Hashtag text="큰세가움ㅠㅠ" />
-                    <Hashtag text="룸메이트" />
-                    <Hashtag text="공포방송" />
-                  </div>
-                </li>
-                <li className="pt-16">
-                  <div className="bookHeader flex f-ai-end">
-                    <h4 className="font-bold">데뷔 못하면 죽는 병 걸림 2화</h4>
-                    <span className="tc-500 ml-4 fs-14">2021.12.31</span>
-                  </div>
-                  <div
-                    className="hashtagBox pt-4 pb-16 flex f-wrap"
-                    style={{ borderBottom: '1px solid var(--gray--300)' }}
-                  >
-                    <Hashtag text="베세랑만남" />
-                    <Hashtag text="삽화" />
-                    <Hashtag text="큰세가움ㅠㅠ" />
-                    <Hashtag text="룸메이트" />
-                    <Hashtag text="공포방송" />
-                  </div>
-                </li>
+                {books.length > 0 ? (
+                  books.map((book) => (
+                    <li id={book.name} className="pt-16">
+                      <div className="bookHeader flex f-ai-end">
+                        <h5 className="font-bold">{book.name}</h5>
+                        <span className="tc-500 ml-4 fs-14">
+                          {book.createdAt}
+                        </span>
+                      </div>
+                      <div
+                        className="hashtagBox pt-8 pb-16 flex f-wrap"
+                        style={{ borderBottom: '1px solid var(--gray--300)' }}
+                      >
+                        {book.tags.map((tag) => (
+                          <Hashtag text={tag} />
+                        ))}
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <li>글이 없습니다.</li>
+                )}
               </ul>
             </section>
           </div>
