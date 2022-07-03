@@ -21,6 +21,14 @@ const authApi = {
       `${process.env.REACT_APP_API_URL}/users`
     );
   },
+  logout() {
+    return api(
+      {
+        method: 'POST',
+      },
+      `${process.env.REACT_APP_API_URL}/logout`
+    );
+  },
 };
 
 export default authApi;
