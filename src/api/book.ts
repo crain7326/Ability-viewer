@@ -9,20 +9,22 @@ const bookApi = {
   getBookByTag() {},
 
   // 책 저장
-  createBook(data: {
-    book: {
-      name: string;
-      text: string;
-    };
-    tags?: [
-      {
+  createBook(
+    data: {
+      book: {
         name: string;
-      }
-    ];
-  }) {
+        text: string;
+      };
+      tags?: { name: string }[];
+    },
+    token: string
+  ) {
     return api(
       {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         data,
       },
       `${process.env.REACT_APP_API_URL}/books`
@@ -63,3 +65,5 @@ const bookApi = {
     );
   },
 };
+
+export default bookApi;

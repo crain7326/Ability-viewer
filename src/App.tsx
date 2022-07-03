@@ -8,12 +8,18 @@ import ViewerPage from './Page/ViewerPage';
 import ViewerAll from './Page/ViewerAll';
 import FindUserPage from './Page/FindUserPage';
 import ErrorBoundary from './components/error/ErrorBoundary';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import storage from './helper/localStorage';
 import BookDetail from './Page/BookDetail';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
 
+  useEffect(() => {
+    storage.getToken() ? setIsLogin(true) : setIsLogin(false);
+  }, [isLogin]);
+  
+ 
   return (
     <ErrorBoundary>
       <div className="App pretendard">
