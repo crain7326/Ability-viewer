@@ -1,4 +1,5 @@
 import api from './api';
+import storage from '../helper/localStorage';
 
 const bookApi = {
   // 단일 책 조회
@@ -9,19 +10,21 @@ const bookApi = {
   getBookByTag() {},
 
   // 책 저장
-  createBook(data: {
-    book: {
-      name: string;
-      text: string;
-    };
-    tags?: [
-      {
+  createBook(
+    data: {
+      book: {
         name: string;
-      }
-    ];
-  }) {
+        text: string;
+      };
+      tags?: { name: string }[];
+    },
+    token: string
+  ) {
     return api(
       {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         method: 'POST',
         data,
       },
@@ -63,3 +66,5 @@ const bookApi = {
     );
   },
 };
+
+export default bookApi;
