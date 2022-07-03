@@ -50,7 +50,7 @@ const ViewerFrom = () => {
                   <Hashtag key={index} text={object.name} />
                 ))}
             </div>
-            <HashtagInput tags={Tags} setTags={setTags} />
+            <HashtagInput setTags={setTags} />
           </div>
           <textarea
             className="unset border-box py-12 user_text"

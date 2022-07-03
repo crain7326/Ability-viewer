@@ -7,13 +7,7 @@ import React, {
 } from 'react';
 import Hashtag from '../common/Hashtag';
 
-const HashtagInput = ({
-  setTags,
-  tags,
-}: {
-  setTags: (value: React.SetStateAction<string[]>) => void;
-  tags: [];
-}) => {
+const HashtagInput = (state: { setTags: Function }) => {
   const [inputHashtagVal, setInputHashtagVal] = useState<string>();
   const [hashtags, setHashtags] = useState<string[]>([]);
 
@@ -31,7 +25,7 @@ const HashtagInput = ({
     setHashtags((hashtags): any => [...hashtags, inputHashtagVal]);
 
     console.log(hashtags);
-    setTags((hashtags): any => [...hashtags, inputHashtagVal]);
+    state.setTags((hashtags): any => [...hashtags, inputHashtagVal]);
     e.currentTarget.value = '';
     console.log(hashtags);
   };
@@ -52,7 +46,7 @@ const HashtagInput = ({
 
     //backspace
     if (e.code === 'Backspace' && currentValue == '') {
-      deleteLastHashtag();
+      // deleteLastHashtag();
     }
   };
 
