@@ -3,10 +3,11 @@ import React, {
   SyntheticEvent,
   useState,
   KeyboardEvent,
+  Dispatch,
 } from 'react';
 import Hashtag from '../common/Hashtag';
 
-const HashtagInput = () => {
+const HashtagInput = (state: { setTags: Function }) => {
   const [inputHashtagVal, setInputHashtagVal] = useState<string>();
   const [hashtags, setHashtags] = useState<string[]>([]);
 
@@ -16,15 +17,17 @@ const HashtagInput = () => {
 
     setInputHashtagVal(inputvalue);
   };
-
-  const deleteLastHashtag = () => {
-    hashtags.pop();
-    setHashtags([...hashtags]);
-  };
-
+  // const deleteLastHashtag = () => {
+  //   hashtags.pop();
+  //   setHashtags([...hashtags]);
+  // };
   const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
     setHashtags((hashtags): any => [...hashtags, inputHashtagVal]);
+
+    console.log(hashtags);
+    state.setTags((hashtags): any => [...hashtags, inputHashtagVal]);
     e.currentTarget.value = '';
+    console.log(hashtags);
   };
 
   const keyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -43,16 +46,12 @@ const HashtagInput = () => {
 
     //backspace
     if (e.code === 'Backspace' && currentValue == '') {
-      deleteLastHashtag();
+      // deleteLastHashtag();
     }
   };
 
   return (
     <>
-      <div className="hastagBox my-4 flex f-wrap">
-        {hashtags &&
-          hashtags.map((text, index) => <Hashtag key={index} text={text} />)}
-      </div>
       <input
         className="unset py-8 mb-4"
         placeholder="해시태그를 입력하세요"
