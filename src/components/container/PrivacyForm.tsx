@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Notification from '../../components/common/Notification';
 
 import { observer } from 'mobx-react';
-import indexStore from '../../store/indexStore';
 
 export interface PrivacyFormProps {
   id: string;

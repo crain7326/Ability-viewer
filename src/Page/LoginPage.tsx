@@ -20,7 +20,7 @@ interface ResponseLogin {
   token: string;
 }
 
-const LoginPage = () => {
+const LoginPage = (props: { setIsLogin: Function }) => {
   let navigate = useNavigate();
 
   const [loginId, setLoginId] = useState('');
@@ -37,6 +37,7 @@ const LoginPage = () => {
     setLoading(false);
 
     if (data) {
+      props.setIsLogin(true);
       storage.setToken(data.token);
       storage.setUserId(data.id);
       navigate('/', { replace: true });
