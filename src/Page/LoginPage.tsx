@@ -1,29 +1,59 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-// import { AxiosResponse } from 'axios';
 
-import { observer } from 'mobx-react';
-import indexStore from '../store/indexStore';
+// router
+import { Link, useNavigate } from 'react-router-dom';
+
+// api
+import authApi from '../api/auth';
+
+// storage
+import storage from '../helper/localStorage';
+
+// component
 import LabelInput from '../components/common/LabelInput';
 
-const LoginPage = () => {
-  const { userStore } = indexStore();
+interface ResponseLogin {
+  id: string;
+  links: {
+    user: string;
+  };
+  token: string;
+}
 
+const LoginPage = () => {
   let navigate = useNavigate();
 
   const [loginId, setLoginId] = useState('');
   const [loginPw, setLoginPw] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   async function handleLogin() {
-    const response = await userStore.handleLogin(loginId, loginPw);
-    if (response) navigate('/', { replace: true });
+    setLoading(true);
+    const { data, error } = await authApi.login({
+      id: loginId,
+      password: loginPw,
+    });
+    setLoading(false);
 
-    return;
+    if (data) {
+      storage.setToken(data.token);
+      storage.setUserId(data.id);
+      navigate('/', { replace: true });
+    }
+
+    if (error) {
+      setError(error);
+    }
   }
 
   return (
     <div id="loginPage">
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
+        {/* spinner */}
+        {loading ? 'loading!' : ''}
+        {/* error 처리 */}
+        {error && 'login error!'}
         <form onSubmit={(e) => e.preventDefault()}>
           <LabelInput
             label="아이디"
@@ -32,8 +62,8 @@ const LoginPage = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setLoginId(e.target.value);
             }}
-            value="null"
-            disabled="false"
+            value={loginId}
+            disabled={false}
             required
           />
 
@@ -43,8 +73,9 @@ const LoginPage = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setLoginPw(e.target.value);
             }}
-            value="null"
-            disabled="false"
+            type="password"
+            value={loginPw}
+            disabled={false}
             placeholder="비밀번호 8글자 이상 입력하세요"
             required
           />
@@ -65,4 +96,4 @@ const LoginPage = () => {
   );
 };
 
-export default observer(LoginPage);
+export default LoginPage;
