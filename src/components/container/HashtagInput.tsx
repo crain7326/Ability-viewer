@@ -6,15 +6,15 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
-import Hashtag from '../common/Hashtag';
 
-interface HashTagInpuType {
-  tags: [];
+interface HashTagInputType {
+  tags: { name: string }[];
   setTags: ([]) => void;
 }
 
-const HashtagInput = ({ setTags, tags }: HashTagInpuType) => {
+const HashtagInput = ({ setTags, tags }: HashTagInputType) => {
   const [inputHashtagVal, setInputHashtagVal] = useState<string>();
+
   const onChangeHashtag = (e: ChangeEvent<HTMLInputElement>) => {
     const currentValue = e.currentTarget.value;
     const inputvalue = currentValue.replace(/ /g, '');
@@ -30,26 +30,23 @@ const HashtagInput = ({ setTags, tags }: HashTagInpuType) => {
   const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
     setTags((prev): any => [...prev, { name: inputHashtagVal }]);
 
-    console.log(tags);
     e.currentTarget.value = '';
   };
 
   const keyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
     const event: SyntheticEvent<HTMLInputElement> = e;
-    const currentValue = e.currentTarget.value;
-
     //space
-    if (e.code === 'Space' && currentValue !== '') {
+    if (e.code === 'Space' && inputHashtagVal !== '') {
       addHashtag(event);
     }
 
     // enter
-    if (e.code === 'Enter' && currentValue !== '') {
+    if (e.code === 'Enter' && inputHashtagVal !== '') {
       addHashtag(event);
     }
 
     //backspace
-    if (e.code === 'Backspace' && currentValue == '') {
+    if (e.code === 'Backspace' && inputHashtagVal === '') {
       deleteLastHashtag();
     }
   };

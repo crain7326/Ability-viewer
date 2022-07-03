@@ -12,7 +12,6 @@ import { observer } from 'mobx-react';
 // components
 import ViewerType from '../components/Button/ViewerType';
 import Control from '../components/Button/Control';
-import HashtagInput from '../components/container/HashtagInput';
 import Toggle from '../components/Button/Toggle';
 import ViewerFrom from '../components/container/ViewerFrom';
 // option type 설정
