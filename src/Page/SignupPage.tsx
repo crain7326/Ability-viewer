@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+// router
+import { useNavigate } from 'react-router-dom';
+
 import { observer } from 'mobx-react';
 import LabelInput from '../components/common/LabelInput';
 import EmailInput from '../components/container/EmailInput';
@@ -9,14 +12,16 @@ import PrivacyForm from '../components/container/PrivacyForm';
 import authApi from '../api/auth';
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     id: '',
     email: '',
     pw: '',
     pwValid: '',
   });
-  const [isPwValid, setIsPwValid] = useState(true);
+  const [isPwValid] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const makeObject = (type: string, value: any) => {
     setUser((prevState) => {
@@ -31,14 +36,27 @@ const SignupPage = () => {
       email: user.email,
       password: user.pw,
     });
+    setLoading(false);
+
+    if (data) {
+      navigate('/login', { replace: true });
+    }
+
+    if (error) {
+      setError(error);
+    }
   }
 
   return (
     <div>
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
+        {/* spinner */}
+        {loading && 'loading...'}
+        {/* error 처리 */}
+        {error && 'register error!'}
         <form onSubmit={(e) => e.preventDefault()}>
           <fieldset>
-            <EmailInput setValue={makeObject} />
+            <EmailInput value={user.email} setValue={makeObject} />
 
             <LabelInput
               label="아이디"
@@ -74,7 +92,7 @@ const SignupPage = () => {
             />
             {!isPwValid && '비밀번호가 일치하지 않습니다.'}
           </fieldset>
-          <PrivacyForm user={user} />
+          <PrivacyForm user={user} handleRegister={handleRegister} />
         </form>
       </div>
     </div>

@@ -14,9 +14,11 @@ const authApi = {
     return api(
       {
         method: 'POST',
-        data,
+        data: {
+          user: data,
+        },
       },
-      `${process.env.REACT_APP_API_URL}/users}`
+      `${process.env.REACT_APP_API_URL}/users`
     );
   },
 };

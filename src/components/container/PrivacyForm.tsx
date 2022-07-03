@@ -5,20 +5,20 @@ import { observer } from 'mobx-react';
 import indexStore from '../../store/indexStore';
 
 export interface PrivacyFormProps {
-  user: {
-    id: string;
-    pw: string;
-    email: string;
-  };
+  id: string;
+  pw: string;
+  email: string;
 }
 
-const PrivacyForm = ({ user }: PrivacyFormProps) => {
+const PrivacyForm = (props: {
+  user: PrivacyFormProps;
+  handleRegister: Function;
+}) => {
+  const { user, handleRegister } = props;
   const [error, setError] = useState<string>('');
   const [active, setActive] = useState<boolean>(false);
 
-  const onValidationCheck = async () => {
-    setError(' ');
-    // validate
+  const onValidationCheck = () => {
     const validation = {
       email: (text: string) => {
         if (text === '') {
@@ -46,8 +46,7 @@ const PrivacyForm = ({ user }: PrivacyFormProps) => {
       null;
 
     if (error) {
-      setError(error);
-      return;
+      return error;
     }
   };
 
@@ -88,7 +87,12 @@ const PrivacyForm = ({ user }: PrivacyFormProps) => {
         type="submit"
         style={{ textAlign: 'center', cursor: 'pointer' }}
         onClick={() => {
-          onValidationCheck();
+          const result = onValidationCheck();
+          if (result) {
+            setError(result);
+          } else {
+            handleRegister();
+          }
         }}
       >
         회원가입

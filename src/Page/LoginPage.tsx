@@ -51,7 +51,7 @@ const LoginPage = () => {
     <div id="loginPage">
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
         {/* spinner */}
-        {loading ? 'loading!' : ''}
+        {loading && 'loading...'}
         {/* error 처리 */}
         {error && 'login error!'}
         <form onSubmit={(e) => e.preventDefault()}>
