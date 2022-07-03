@@ -13,9 +13,8 @@ import { observer } from 'mobx-react';
 // components
 import ViewerType from '../components/Button/ViewerType';
 import Control from '../components/Button/Control';
-import Hashtag from '../components/common/Hashtag';
+import HashtagInput from '../components/container/HashtagInput';
 import Toggle from '../components/Button/Toggle';
-
 // option type 설정
 const optionType = Object.freeze({
   fontFamily: 'fontFamily',
@@ -26,44 +25,6 @@ const optionType = Object.freeze({
 
 const ViewerPage = () => {
   const { optionStore } = indexStore();
-  const { detailStore } = indexStore();
-
-  const [inputHashtagVal, setInputHashtagVal] = useState<string[]>([]);
-  const [hashtags, setHashtags] = useState<string[]>([]);
-
-  const onChangeHashtag = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string[] = e.target.value.trim().split(' ');
-    setInputHashtagVal(value);
-  };
-  const deleteLastHashtag = () => {
-    // 01. any
-    // setHashtags((hashtags): any => [[...hashtags, hashtags.pop()]]);
-
-    // 02. 재할당
-    hashtags.pop();
-    setHashtags([...hashtags]);
-
-    hashtags && document.querySelector('.hastagBox')?.lastChild?.remove();
-  };
-  const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
-    setHashtags((hashtags): any => [...hashtags, inputHashtagVal]);
-    e.currentTarget.innerHTML = '';
-  };
-  const keyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
-    const event: SyntheticEvent<HTMLInputElement> = e;
-    //space
-    if (e.code == 'Space' && e.currentTarget.innerHTML.trim() !== '') {
-      addHashtag(event);
-    }
-    // enter
-    if (e.code == 'Enter' && e.currentTarget.innerHTML.trim() !== '') {
-      addHashtag(event);
-    }
-    //backspace
-    if (e.code == 'Backspace' && e.currentTarget.innerHTML == '') {
-      deleteLastHashtag();
-    }
-  };
 
   return (
     <div className="ViewerPage pt-12">
@@ -87,8 +48,10 @@ const ViewerPage = () => {
             className="flex mb-4"
             style={{ cursor: 'pointer' }}
             onClick={(e: MouseEvent<HTMLParagraphElement>) =>
-              e.currentTarget.innerHTML.includes('|') === false &&
-              optionStore.setFontFamily(e.currentTarget.innerHTML.split(' ')[1])
+              e.currentTarget.textContent?.includes('|') === false &&
+              optionStore.setFontFamily(
+                e.currentTarget.textContent?.split(' ')[1]
+              )
             }
           >
             <span
@@ -159,7 +122,7 @@ const ViewerPage = () => {
         >
           전체보기
         </Link>
-        <Link to="/" onClick={() => detailStore.setHashtag()} className="ml-12">
+        <Link to="/" className="ml-12">
           저장하기
         </Link>
       </div>
@@ -169,23 +132,12 @@ const ViewerPage = () => {
             className="unset py-12"
             placeholder="제목을 입력하세요"
             style={{ borderBottom: '1px solid var(--gray--300)' }}
-          ></input>
+          />
           <div
             className="hashtagWrap flex f-column"
             style={{ borderBottom: '1px solid var(--gray--300)' }}
           >
-            <div className="hastagBox my-4 flex f-wrap">
-              {hashtags &&
-                hashtags.map((text, index) => (
-                  <Hashtag key={index} text={text} />
-                ))}
-            </div>
-            <input
-              className="unset py-8 mb-4"
-              placeholder="해시태그를 입력하세요"
-              onKeyUp={keyEvent}
-              onChange={onChangeHashtag}
-            />
+            <HashtagInput />
           </div>
           <textarea
             className="unset border-box py-12 user_text"
