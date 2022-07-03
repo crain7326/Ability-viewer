@@ -37,7 +37,6 @@ const ListPage = () => {
 
     if (data) {
       setBooks(data.books);
-      console.log(books);
     }
 
     if (error) {
@@ -70,7 +69,7 @@ const ListPage = () => {
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
               {tags.length > 0 ? (
-                tags.map((tag) => <Hashtag text={tag} />)
+                tags.map((tag) => <Hashtag text={tag} key={tag} />)
               ) : (
                 <p>태그가 없습니다.</p>
               )}
@@ -90,7 +89,7 @@ const ListPage = () => {
               <ul>
                 {books.length > 0 ? (
                   books.map((book) => (
-                    <li id={book.name} className="pt-16">
+                    <li id={book.name} className="pt-16" key={book.name}>
                       <div className="bookHeader flex f-ai-end">
                         <h5 className="font-bold">{book.name}</h5>
                         <span className="tc-500 ml-4 fs-14">
@@ -102,7 +101,7 @@ const ListPage = () => {
                         style={{ borderBottom: '1px solid var(--gray--300)' }}
                       >
                         {book.tags.map((tag) => (
-                          <Hashtag text={tag} />
+                          <Hashtag text={tag} key={tag} />
                         ))}
                       </div>
                     </li>
