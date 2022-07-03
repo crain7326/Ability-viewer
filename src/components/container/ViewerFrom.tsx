@@ -9,7 +9,7 @@ const ViewerFrom = () => {
   // 내부 해시태그 string list object로 반환
 
   const [bookName, setBookName] = useState<string>();
-  const [Tags, setTags] = useState<[]>([]);
+  const [tags, setTags] = useState<{ name: string }[]>([]);
   const [bookText, setBookText] = useState<string>();
 
   return (
@@ -45,12 +45,12 @@ const ViewerFrom = () => {
             style={{ borderBottom: '1px solid var(--gray--300)' }}
           >
             <div className="hastagBox my-4 flex f-wrap">
-              {Tags &&
-                Tags.map((object, index) => (
+              {tags &&
+                tags.map((object, index) => (
                   <Hashtag key={index} text={object.name} />
                 ))}
             </div>
-            <HashtagInput setTags={setTags} />
+            <HashtagInput setTags={setTags} tags={tags} />
           </div>
           <textarea
             className="unset border-box py-12 user_text"
