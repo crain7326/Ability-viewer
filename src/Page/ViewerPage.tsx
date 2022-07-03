@@ -132,7 +132,7 @@ const ViewerPage = () => {
             className="unset py-12"
             placeholder="제목을 입력하세요"
             style={{ borderBottom: '1px solid var(--gray--300)' }}
-          ></input>
+          />
           <div
             className="hashtagWrap flex f-column"
             style={{ borderBottom: '1px solid var(--gray--300)' }}
