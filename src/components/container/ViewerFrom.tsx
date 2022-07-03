@@ -29,9 +29,6 @@ const ViewerFrom = () => {
 
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    const book = { book: { ...bookName, ...bookText } };
-    const tags = { tags: [...bookTags] };
-    const requestObj = { ...book, ...tags };
     handdleCreateBook();
   };
 
@@ -41,22 +38,22 @@ const ViewerFrom = () => {
       setErrorMessage('로그인 해주세요');
       return;
     }
-
     setLoading(true);
-    console.log({
+    const inputData = {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
-    });
-    const { data, error } = await bookApi.createBook(
-      {
-        book: { ...bookName, ...bookText },
-        tags: [...bookTags],
-      },
-      token
-    );
+    };
+    const { data, error } = await bookApi.createBook(inputData, token);
     setLoading(false);
-
     console.log(data);
+
+    if (!data) {
+      setErrorMessage('토큰이 만료됐습니다. 다시 로그인 해주세요');
+    }
+    // 나중에 알림 컴포넌트로 넣기
+    if (data.success === true) {
+      console.log('저장완료');
+    }
 
     if (error) {
       setErrorMessage('error!');

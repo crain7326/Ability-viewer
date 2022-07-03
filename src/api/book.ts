@@ -22,10 +22,10 @@ const bookApi = {
   ) {
     return api(
       {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        method: 'POST',
         data,
       },
       `${process.env.REACT_APP_API_URL}/books`
