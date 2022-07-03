@@ -4,6 +4,7 @@ import Hashtag from '../components/common/Hashtag';
 // 임시
 import api from '../api/api';
 import userStorage from '../helper/localStorage';
+import bookApi from '../api/book';
 
 interface ResponseBooks {
   name: string;
@@ -18,7 +19,7 @@ interface ResponseBooks {
 
 const ListPage = () => {
   const [books, setBooks] = useState<ResponseBooks[]>([]);
-  const [tags, setTags] = useState(['']);
+  const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -45,9 +46,13 @@ const ListPage = () => {
   };
 
   const combineTags = async () => {
-    const allTags: string[] = [];
-    books.map((book: any) => [allTags, ...book.tags]);
-    setTags(allTags);
+    const token = userStorage.getToken();
+    const { data, error } = await bookApi.getBookByTag(token);
+    setTags(data.tags);
+
+    if (error) {
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -69,7 +74,9 @@ const ListPage = () => {
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
               {tags.length > 0 ? (
-                tags.map((tag) => <Hashtag text={tag} key={tag} />)
+                tags.map((tag, index) => (
+                  <Hashtag text={tag.name} key={tag.name} />
+                ))
               ) : (
                 <p>태그가 없습니다.</p>
               )}
@@ -88,8 +95,8 @@ const ListPage = () => {
               <h3 className="hidden">글 목록</h3>
               <ul>
                 {books.length > 0 ? (
-                  books.map((book) => (
-                    <li id={book.name} className="pt-16" key={book.name}>
+                  books.map((book, index) => (
+                    <li id={book.name} className="pt-16" key={index}>
                       <div className="bookHeader flex f-ai-end">
                         <h5 className="font-bold">{book.name}</h5>
                         <span className="tc-500 ml-4 fs-14">
@@ -101,7 +108,7 @@ const ListPage = () => {
                         style={{ borderBottom: '1px solid var(--gray--300)' }}
                       >
                         {book.tags.map((tag) => (
-                          <Hashtag text={tag} key={tag} />
+                          <Hashtag text={tag.name} key={tag.name} />
                         ))}
                       </div>
                     </li>

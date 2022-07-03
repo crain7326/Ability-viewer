@@ -6,7 +6,17 @@ const bookApi = {
   // 특정 회원의 모든 책 조회
   getAllBooks() {},
   // 특정 회원, 특정 태그의 모든 책 조회
-  getBookByTag() {},
+  getBookByTag(token: string) {
+    return api(
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+      `${process.env.REACT_APP_API_URL}/tags`
+    );
+  },
 
   // 책 저장
   createBook(
