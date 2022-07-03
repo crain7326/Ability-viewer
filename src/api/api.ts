@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 async function api(config: AxiosRequestConfig, url: string) {
-  console.log(url);
   const result: {
     data: any;
     error: boolean;
