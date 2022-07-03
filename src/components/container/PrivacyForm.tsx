@@ -15,7 +15,6 @@ export interface PrivacyFormProps {
 const PrivacyForm = ({ user }: PrivacyFormProps) => {
   const [error, setError] = useState<string>('');
   const [active, setActive] = useState<boolean>(false);
-  const { userStore } = indexStore();
 
   const onValidationCheck = async () => {
     setError(' ');

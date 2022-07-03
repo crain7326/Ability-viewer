@@ -5,6 +5,9 @@ import LabelInput from '../components/common/LabelInput';
 import EmailInput from '../components/container/EmailInput';
 import PrivacyForm from '../components/container/PrivacyForm';
 
+// api
+import authApi from '../api/auth';
+
 const SignupPage = () => {
   const [user, setUser] = useState({
     id: '',
@@ -13,12 +16,22 @@ const SignupPage = () => {
     pwValid: '',
   });
   const [isPwValid, setIsPwValid] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const makeObject = (type: string, value: any) => {
     setUser((prevState) => {
       return { ...prevState, [type]: value };
     });
   };
+
+  async function handleRegister() {
+    setLoading(true);
+    const { data, error } = await authApi.register({
+      id: user.id,
+      email: user.email,
+      password: user.pw,
+    });
+  }
 
   return (
     <div>
