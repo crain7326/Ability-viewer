@@ -4,30 +4,34 @@ import React, {
   useState,
   KeyboardEvent,
   Dispatch,
+  SetStateAction,
 } from 'react';
 import Hashtag from '../common/Hashtag';
 
-const HashtagInput = (state: { setTags: Function }) => {
-  const [inputHashtagVal, setInputHashtagVal] = useState<string>();
-  const [hashtags, setHashtags] = useState<string[]>([]);
+interface HashTagInpuType {
+  tags: [];
+  setTags: ([]) => void;
+}
 
+const HashtagInput = ({ setTags, tags }: HashTagInpuType) => {
+  const [inputHashtagVal, setInputHashtagVal] = useState<string>();
   const onChangeHashtag = (e: ChangeEvent<HTMLInputElement>) => {
     const currentValue = e.currentTarget.value;
     const inputvalue = currentValue.replace(/ /g, '');
 
     setInputHashtagVal(inputvalue);
   };
-  // const deleteLastHashtag = () => {
-  //   hashtags.pop();
-  //   setHashtags([...hashtags]);
-  // };
-  const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
-    setHashtags((hashtags): any => [...hashtags, inputHashtagVal]);
 
-    console.log(hashtags);
-    state.setTags((hashtags): any => [...hashtags, inputHashtagVal]);
+  const deleteLastHashtag = () => {
+    tags.pop();
+    setTags([...tags]);
+  };
+
+  const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
+    setTags((prev): any => [...prev, { name: inputHashtagVal }]);
+
+    console.log(tags);
     e.currentTarget.value = '';
-    console.log(hashtags);
   };
 
   const keyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -46,7 +50,7 @@ const HashtagInput = (state: { setTags: Function }) => {
 
     //backspace
     if (e.code === 'Backspace' && currentValue == '') {
-      // deleteLastHashtag();
+      deleteLastHashtag();
     }
   };
 
