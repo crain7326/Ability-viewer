@@ -1,5 +1,4 @@
 import api from './api';
-import storage from '../helper/localStorage';
 
 const bookApi = {
   // 단일 책 조회

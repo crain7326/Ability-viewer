@@ -10,6 +10,7 @@ import FindUserPage from './Page/FindUserPage';
 import ErrorBoundary from './components/error/ErrorBoundary';
 import { useEffect, useState } from 'react';
 import storage from './helper/localStorage';
+import BookDetail from './Page/BookDetail';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,7 +18,8 @@ function App() {
   useEffect(() => {
     storage.getToken() ? setIsLogin(true) : setIsLogin(false);
   }, [isLogin]);
-
+  
+ 
   return (
     <ErrorBoundary>
       <div className="App pretendard">
@@ -25,6 +27,7 @@ function App() {
         <main className="h-main bg-100">
           <Routes>
             <Route path="/" element={<ViewerPage />} />
+            <Route path="/book/:id" element={<BookDetail />} />
             <Route path="/viewer_all" element={<ViewerAll />} />
             <Route path="/list" element={<ListPage />} />
             <Route path="/mypage" element={<Mypage />} />
