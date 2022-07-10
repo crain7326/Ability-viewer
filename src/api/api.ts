@@ -1,20 +1,21 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+
+export interface Response<T> {
+  data: T;
+  error: null | AxiosError;
+}
 
 async function api(config: AxiosRequestConfig, url: string) {
-  const result: {
-    data: any;
-    error: boolean;
-  } = {
+  const result: Response<any> = {
     data: null,
-    error: false,
+    error: null,
   };
 
   try {
     const response = await axios({ ...config, url });
     result.data = response.data;
   } catch (err) {
-    console.log(err);
-    result.error = true;
+    result.error = err as AxiosError;
   } finally {
     return result;
   }

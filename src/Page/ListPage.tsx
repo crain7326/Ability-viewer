@@ -1,48 +1,37 @@
 import { useEffect, useState } from 'react';
 import Hashtag from '../components/common/Hashtag';
 
-// 임시
-import api from '../api/api';
 import userStorage from '../helper/localStorage';
 import bookApi from '../api/book';
-
-interface ResponseBooks {
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  links: {
-    book: string;
-    delete: string;
-  };
-  tags: string[];
-}
+import { useNavigate } from 'react-router-dom';
+import { BookEntity } from '../api/book.dto';
+import { AxiosError } from 'axios';
 
 const ListPage = () => {
-  const [books, setBooks] = useState<ResponseBooks[]>([]);
+  const [books, setBooks] = useState<BookEntity[]>([]);
   const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<AxiosError>();
+  const navigation = useNavigate();
 
   const getAllBooks = async () => {
     setLoading(true);
-    const { data, error } = await api(
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${userStorage.getToken()}`,
-        },
-      },
-      `${process.env.REACT_APP_API_URL}/books`
-    );
+    const { data, error } = await bookApi.getAllBooks();
     setLoading(false);
 
     if (data) {
-      setBooks(data.books);
+      const books: BookEntity[] = data.books as BookEntity[];
+      setBooks(books);
     }
 
     if (error) {
-      setError(true);
+      setError(error);
     }
+  };
+
+  const goToBookDetail = (link: string) => () => {
+    const bookId = link.split('books/')[1];
+    navigation(`/book/${bookId}`);
   };
 
   const combineTags = async () => {
@@ -51,7 +40,7 @@ const ListPage = () => {
     setTags(data.tags);
 
     if (error) {
-      setError(true);
+      setError(error);
     }
   };
 
@@ -94,9 +83,14 @@ const ListPage = () => {
             <section>
               <h3 className="hidden">글 목록</h3>
               <ul>
-                {books.length > 0 ? (
-                  books.map((book, index) => (
-                    <li id={book.name} className="pt-16" key={index}>
+                {books?.length > 0 ? (
+                  books?.map((book, index) => (
+                    <li
+                      id={book.name}
+                      className="pt-16"
+                      key={index}
+                      onClick={goToBookDetail(book.links.book)}
+                    >
                       <div className="bookHeader flex f-ai-end">
                         <h5 className="font-bold">{book.name}</h5>
                         <span className="tc-500 ml-4 fs-14">
