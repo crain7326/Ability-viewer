@@ -300,6 +300,9 @@
 }
 
 /*** height ***/
+.h-full {
+  height: 100%;
+}
 .h-50 {
   height: 50px;
 }
