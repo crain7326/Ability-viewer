@@ -3,6 +3,20 @@ import { observable, action, makeObservable, configure } from 'mobx';
 // action으로만 observable(state) 수정하도록 설정
 configure({ enforceActions: 'observed' });
 
+export enum OptionType {
+  fontFamily = 'fontFamily',
+  fontSize = 'fontSize',
+  paragraphHeigth = 'paragraphHeigth',
+  lineHeigth = 'lineHeigth',
+}
+
+export enum ViewType {
+  ridi = '리디북스',
+  kakao = '카카오',
+}
+
+export type FontFamily = 'KoPub 바탕' | 'KoPub 돋움' | 'KoPub 명조';
+
 // singleton pattern
 class OptionStore {
   static exist = false;
@@ -13,10 +27,9 @@ class OptionStore {
   lineHeigthNum = 1;
 
   // 글꼴
-  fontFamily = '바탕';
+  fontFamily: FontFamily = 'KoPub 바탕';
 
-  setFontFamily(type: string) {
-    if (typeof type !== 'string') return;
+  setFontFamily(type: FontFamily) {
     this.fontFamily = type;
   }
 
@@ -27,12 +40,12 @@ class OptionStore {
   // 줄 간격
   lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
   // 사용자 입력 Text
-  text = '';
+  text: string | undefined = '';
   setText(_text: string | undefined) {
     this.text = _text;
   }
   // 입력한 text 배열
-  textBundle = [];
+  textBundle: string[] = [];
   setTextBundle(_text: string) {
     const text = _text.replace(/(\r\n|\n|\r)/gm, '<BR>');
     const arr = text.split('<BR>');
@@ -40,41 +53,27 @@ class OptionStore {
     this.textBundle = textBundle;
   }
 
-  // option type
-  optionType = Object.freeze({
-    fontFamily: 'fontFamily',
-    fontSize: 'fontSize',
-    paragraphHeigth: 'paragraphHeigth',
-    lineHeigth: 'lineHeigth',
-  });
-
   // 뷰어 설정 (리디북스, 카카오)
   viewerType = '리디북스';
-  //  viewer type
-  viewer = Object.freeze({
-    ridi: '리디북스',
-    kakao: '카카오',
-  });
 
   // param: viewer.ridi or kakao
-  setViewerType(type: string) {
-    if (typeof type !== 'string') return;
+  setViewerType(type: ViewType) {
     this.viewerType = type;
   }
 
-  optionPlus(type: string) {
+  optionPlus(type: OptionType) {
     switch (type) {
-      case this.optionType.fontSize:
+      case OptionType.fontSize:
         if (this.fontSizeNum === 12) return;
         this.fontSizeNum++;
         this.fontSize = `ridi_fs_${this.fontSizeNum}`;
         break;
-      case this.optionType.paragraphHeigth:
+      case OptionType.paragraphHeigth:
         if (this.paragraphHeigthNum === 6) return;
         this.paragraphHeigthNum++;
         this.paragraphHeigth = `ridi_ph_${this.paragraphHeigthNum}`;
         break;
-      case this.optionType.lineHeigth:
+      case OptionType.lineHeigth:
         if (this.lineHeigthNum === 6) return;
         this.lineHeigthNum++;
         this.lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
@@ -84,19 +83,19 @@ class OptionStore {
     }
   }
 
-  optionMinus(type: string) {
+  optionMinus(type: OptionType) {
     switch (type) {
-      case this.optionType.fontSize:
+      case OptionType.fontSize:
         number: if (this.fontSizeNum === 1) return;
         this.fontSizeNum--;
         this.fontSize = `ridi_fs_${this.fontSizeNum}`;
         break;
-      case this.optionType.paragraphHeigth:
+      case OptionType.paragraphHeigth:
         if (this.paragraphHeigthNum === 1) return;
         this.paragraphHeigthNum--;
         this.paragraphHeigth = `ridi_ph_${this.paragraphHeigthNum}`;
         break;
-      case this.optionType.lineHeigth:
+      case OptionType.lineHeigth:
         if (this.lineHeigthNum === 1) return;
         this.lineHeigthNum--;
         this.lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
