@@ -5,6 +5,7 @@ import Hashtag from '../components/common/Hashtag';
 import api from '../api/api';
 import userStorage from '../helper/localStorage';
 import bookApi from '../api/book';
+import { useNavigate } from 'react-router-dom';
 
 interface ResponseBooks {
   name: string;
@@ -22,6 +23,7 @@ const ListPage = () => {
   const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const navigation = useNavigate();
 
   const getAllBooks = async () => {
     setLoading(true);
@@ -37,12 +39,18 @@ const ListPage = () => {
     setLoading(false);
 
     if (data) {
-      setBooks(data.books);
+      const books: ResponseBooks[] = data.books as ResponseBooks[];
+      setBooks(books);
     }
 
     if (error) {
       setError(true);
     }
+  };
+
+  const goToBookDetail = (link: string) => () => {
+    const bookId = link.split('books/')[1];
+    navigation(`/book/${bookId}`);
   };
 
   const combineTags = async () => {
@@ -96,7 +104,12 @@ const ListPage = () => {
               <ul>
                 {books.length > 0 ? (
                   books.map((book, index) => (
-                    <li id={book.name} className="pt-16" key={index}>
+                    <li
+                      id={book.name}
+                      className="pt-16"
+                      key={index}
+                      onClick={goToBookDetail(book.links.book)}
+                    >
                       <div className="bookHeader flex f-ai-end">
                         <h5 className="font-bold">{book.name}</h5>
                         <span className="tc-500 ml-4 fs-14">

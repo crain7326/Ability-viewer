@@ -1,8 +1,18 @@
 import api from './api';
-
+import userStorage from '../helper/localStorage';
 const bookApi = {
   // 단일 책 조회
-  getBookById() {},
+  async getBookById(book_id: string) {
+    return await api(
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${userStorage.getToken()}`,
+        },
+      },
+      `${process.env.REACT_APP_API_URL}/books/${book_id}`
+    );
+  },
   // 특정 회원의 모든 책 조회
   getAllBooks() {},
   // 특정 회원, 특정 태그의 모든 책 조회
