@@ -1,8 +1,11 @@
 import api from './api';
 import userStorage from '../helper/localStorage';
+import { Response } from './api';
+import { BookDto, BookDetailDto } from './book.dto';
+
 const bookApi = {
   // 단일 책 조회
-  async getBookById(book_id: string) {
+  async getBookById(book_id: string): Promise<Response<BookDetailDto>> {
     return await api(
       {
         method: 'GET',
@@ -14,7 +17,17 @@ const bookApi = {
     );
   },
   // 특정 회원의 모든 책 조회
-  getAllBooks() {},
+  async getAllBooks(): Promise<Response<BookDto>> {
+    return await api(
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${userStorage.getToken()}`,
+        },
+      },
+      `${process.env.REACT_APP_API_URL}/books`
+    );
+  },
   // 특정 회원, 특정 태그의 모든 책 조회
   getBookByTag(token: string) {
     return api(

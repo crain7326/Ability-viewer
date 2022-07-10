@@ -1,50 +1,31 @@
 import { useEffect, useState } from 'react';
 import Hashtag from '../components/common/Hashtag';
 
-// 임시
-import api from '../api/api';
 import userStorage from '../helper/localStorage';
 import bookApi from '../api/book';
 import { useNavigate } from 'react-router-dom';
-
-interface ResponseBooks {
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  links: {
-    book: string;
-    delete: string;
-  };
-  tags: string[];
-}
+import { BookEntity } from '../api/book.dto';
+import { AxiosError } from 'axios';
 
 const ListPage = () => {
-  const [books, setBooks] = useState<ResponseBooks[]>([]);
+  const [books, setBooks] = useState<BookEntity[]>([]);
   const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<AxiosError>();
   const navigation = useNavigate();
 
   const getAllBooks = async () => {
     setLoading(true);
-    const { data, error } = await api(
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${userStorage.getToken()}`,
-        },
-      },
-      `${process.env.REACT_APP_API_URL}/books`
-    );
+    const { data, error } = await bookApi.getAllBooks();
     setLoading(false);
 
     if (data) {
-      const books: ResponseBooks[] = data.books as ResponseBooks[];
+      const books: BookEntity[] = data.books as BookEntity[];
       setBooks(books);
     }
 
     if (error) {
-      setError(true);
+      setError(error);
     }
   };
 
@@ -59,7 +40,7 @@ const ListPage = () => {
     setTags(data.tags);
 
     if (error) {
-      setError(true);
+      setError(error);
     }
   };
 
@@ -102,8 +83,8 @@ const ListPage = () => {
             <section>
               <h3 className="hidden">글 목록</h3>
               <ul>
-                {books.length > 0 ? (
-                  books.map((book, index) => (
+                {books?.length > 0 ? (
+                  books?.map((book, index) => (
                     <li
                       id={book.name}
                       className="pt-16"
