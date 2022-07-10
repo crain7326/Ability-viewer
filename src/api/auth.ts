@@ -1,4 +1,5 @@
 import api from './api';
+import userStorage from '../helper/localStorage';
 
 const authApi = {
   login(data: { id: string; password: string }) {
@@ -25,6 +26,9 @@ const authApi = {
     return api(
       {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userStorage.getToken()}`,
+        },
       },
       `${process.env.REACT_APP_API_URL}/logout`
     );
