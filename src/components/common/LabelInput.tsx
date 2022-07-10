@@ -22,15 +22,6 @@ const LabelInput = ({
   type,
   ...rest
 }: LabelInputProps) => {
-  const [focus, setFocus] = useState(false);
-
-  const onFocus = useCallback(() => {
-    setFocus(true);
-  }, []);
-  const onBlur = useCallback(() => {
-    setFocus(false);
-  }, []);
-
   return (
     <>
       <label>{label}</label>
@@ -40,7 +31,6 @@ const LabelInput = ({
         onChange={onChange}
         value={value || ''}
         placeholder={placeholder}
-        onFocus={onFocus}
         type={type}
         disabled={disabled || false}
         {...rest}
