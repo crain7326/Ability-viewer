@@ -5,8 +5,8 @@
   --gray--300: #d4d4d8;
   --gray--400: #a1a1aa;
   --gray--500: #71717a;
-  --gray--600:#52525b;
-  --gray--700:#3f3f46;
+  --gray--600: #52525b;
+  --gray--700: #3f3f46;
   --gray--800: #27272a;
   --gray--900: #18181b;
   --white: #fff;
@@ -16,36 +16,36 @@
 .unset {
   all: unset;
 }
-.border-box{
+.border-box {
   box-sizing: border-box;
 }
 
 /*** font ***/
 /* font-family */
 @font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: "KoPubDotumMedium";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff")
-    format("woff");
+  font-family: 'KoPubDotumMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/KoPubDotumMedium.woff')
+    format('woff');
   font-weight: normal;
   font-style: normal;
 }
 @import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
 
 .pretendard {
-  font-family: "Pretendard-Regular", serif;
+  font-family: 'Pretendard-Regular', serif;
 }
 .바탕 {
-  font-family: "KoPub Batang", serif;
+  font-family: 'KoPub Batang', serif;
 }
 .돋움 {
-  font-family: "KoPubDotumMedium", serif;
+  font-family: 'KoPubDotumMedium', serif;
 }
 
 /* font-weight */
@@ -59,6 +59,10 @@
   font-weight: 900;
 }
 /* font-color */
+
+.text-red {
+  color: rgb(239 68 68);
+}
 
 /*** margin ***/
 .m-4 {
@@ -305,8 +309,8 @@
 .h-screen {
   height: 100vh;
 }
-.h-main{
-  height:calc(100vh - 50px);
+.h-main {
+  height: calc(100vh - 50px);
 }
 .min-h-70 {
   min-height: 70px;
@@ -663,7 +667,7 @@
 .inline {
   display: inline;
 }
-.hidden{
+.hidden {
   display: none;
 }
 
@@ -719,5 +723,5 @@
 /* 임시 */
 
 #hashtagList > * {
-  flex : 0 0 auto;
+  flex: 0 0 auto;
 }

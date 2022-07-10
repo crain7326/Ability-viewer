@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 export interface PrivacyFormProps {
   id: string;
   pw: string;
+  pwValid: string;
   email: string;
 }
 
@@ -36,16 +37,22 @@ const PrivacyForm = (props: {
           return '비밀번호는 8~16자 알파벳,특수기호,숫자로 이루어져야 합니다.';
         }
       },
+      passwordValid: (pw1: string, pw2: string) => {
+        if (pw1 !== pw2) {
+          return '비밀번호가 일치하지 않습니다.';
+        }
+      },
     };
 
-    const error =
+    const errorMessage =
       validation.email(user.email) ||
       validation.id(user.id) ||
       validation.password(user.pw) ||
+      validation.passwordValid(user.pw, user.pwValid) ||
       null;
 
-    if (error) {
-      return error;
+    if (errorMessage) {
+      return errorMessage;
     }
   };
 

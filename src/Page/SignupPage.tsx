@@ -19,11 +19,10 @@ const SignupPage = () => {
     pw: '',
     pwValid: '',
   });
-  const [isPwValid] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const makeObject = (type: string, value: any) => {
+  const changeInput = (type: string, value: string) => {
     setUser((prevState) => {
       return { ...prevState, [type]: value };
     });
@@ -56,7 +55,7 @@ const SignupPage = () => {
         {error && 'register error!'}
         <form onSubmit={(e) => e.preventDefault()}>
           <fieldset>
-            <EmailInput value={user.email} setValue={makeObject} />
+            <EmailInput value={user.email} setValue={changeInput} />
 
             <LabelInput
               label="아이디"
@@ -65,7 +64,7 @@ const SignupPage = () => {
               value={user.id}
               placeholder="3~16자의 알파벳,숫자,혹은 특수기호(- _) "
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                makeObject('id', e.target.value);
+                changeInput('id', e.target.value);
               }}
             />
 
@@ -76,7 +75,7 @@ const SignupPage = () => {
               value={user.pw}
               placeholder="8~16자 알파벳,특수기호,숫자"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                makeObject('pw', e.target.value);
+                changeInput('pw', e.target.value);
               }}
             />
 
@@ -87,10 +86,9 @@ const SignupPage = () => {
               value={user.pwValid}
               placeholder="위에 입력한 비밀번호를 입력하세요"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                makeObject('pwValid', e.target.value);
+                changeInput('pwValid', e.target.value);
               }}
             />
-            {!isPwValid && '비밀번호가 일치하지 않습니다.'}
           </fieldset>
           <PrivacyForm user={user} handleRegister={handleRegister} />
         </form>

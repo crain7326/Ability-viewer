@@ -11,6 +11,7 @@ import storage from '../helper/localStorage';
 
 // component
 import LabelInput from '../components/common/LabelInput';
+import Notification from '../components/common/Notification';
 
 interface ResponseLogin {
   id: string;
@@ -29,6 +30,14 @@ const LoginPage = (props: { setIsLogin: Function }) => {
   const [error, setError] = useState(false);
 
   async function handleLogin() {
+    // 로그인 유효성 검사
+    if (loginId.length < 3) {
+      return;
+    }
+    if (loginPw.length < 8) {
+      return;
+    }
+
     setLoading(true);
     const { data, error } = await authApi.login({
       id: loginId,
@@ -53,8 +62,6 @@ const LoginPage = (props: { setIsLogin: Function }) => {
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
         {/* spinner */}
         {loading && 'loading...'}
-        {/* error 처리 */}
-        {error && 'login error!'}
         <form onSubmit={(e) => e.preventDefault()}>
           <LabelInput
             label="아이디"
@@ -75,6 +82,7 @@ const LoginPage = (props: { setIsLogin: Function }) => {
               setLoginPw(e.target.value);
             }}
             type="password"
+            minlength={8}
             value={loginPw}
             disabled={false}
             placeholder="비밀번호 8글자 이상 입력하세요"
@@ -82,6 +90,10 @@ const LoginPage = (props: { setIsLogin: Function }) => {
           />
 
           <div className="errorBox" style={{ color: 'red' }}></div>
+          {/* error 처리 */}
+          {error && (
+            <Notification message="아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요." />
+          )}
           <button
             className="unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8"
             style={{ textAlign: 'center', cursor: 'pointer' }}
