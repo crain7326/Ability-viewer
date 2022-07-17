@@ -29,6 +29,8 @@ const ListPage = () => {
     }
   };
 
+  const onClickTag = async () => {};
+
   const goToBookDetail = (link: string) => () => {
     const bookId = link.split('books/')[1];
     navigation(`/book/${bookId}`);
@@ -63,8 +65,12 @@ const ListPage = () => {
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
               {tags.length > 0 ? (
-                tags.map((tag, index) => (
-                  <Hashtag text={tag.name} key={tag.name} />
+                tags.map((tag) => (
+                  <Hashtag
+                    text={tag.name}
+                    key={tag.name}
+                    onClick={onClickTag()}
+                  />
                 ))
               ) : (
                 <p>태그가 없습니다.</p>
@@ -101,9 +107,14 @@ const ListPage = () => {
                         className="hashtagBox pt-8 pb-16 flex f-wrap"
                         style={{ borderBottom: '1px solid var(--gray--300)' }}
                       >
-                        {book.tags.map((tag) => (
-                          <Hashtag text={tag.name} key={tag.name} />
-                        ))}
+                        {book.tags &&
+                          book.tags.map((tag) => (
+                            <Hashtag
+                              text={tag.name}
+                              key={tag.name}
+                              onClick={onClickTag()}
+                            />
+                          ))}
                       </div>
                     </li>
                   ))
