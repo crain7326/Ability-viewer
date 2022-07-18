@@ -6,10 +6,11 @@ import bookApi from '../api/book';
 import { useNavigate } from 'react-router-dom';
 import { BookEntity } from '../api/book.dto';
 import { AxiosError } from 'axios';
+import axios from 'axios';
 
 const ListPage = () => {
   const [books, setBooks] = useState<BookEntity[]>([]);
-  const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
+  const [tags, setTags] = useState<{ name: string; links: {books:string} }[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError>();
   const navigation = useNavigate();
@@ -29,7 +30,23 @@ const ListPage = () => {
     }
   };
 
-  const onClickTag = async () => {};
+  const onClickTag = async (link: string) => {
+    setLoading(true);
+    const {data, status} = await axios.get(link, {
+        headers: {
+            Authorization: `Bearer ${userStorage.getToken()}`,
+        },
+    });
+    setLoading(false);
+
+    if (status === 500) {
+      setError(true);
+      return;
+    }
+
+    const books: BookEntity[] = data.books as BookEntity[];
+    setBooks(books);
+  };
 
   const goToBookDetail = (link: string) => () => {
     const bookId = link.split('books/')[1];
@@ -38,6 +55,9 @@ const ListPage = () => {
 
   const combineTags = async () => {
     const token = userStorage.getToken();
+    if (!token) {
+      return;
+    }
     const { data, error } = await bookApi.getBookByTag(token);
     setTags(data.tags);
 
@@ -69,7 +89,7 @@ const ListPage = () => {
                   <Hashtag
                     text={tag.name}
                     key={tag.name}
-                    onClick={onClickTag()}
+                    onClickTag={()=> {onClickTag(tag.links.books);}}
                   />
                 ))
               ) : (
@@ -112,7 +132,7 @@ const ListPage = () => {
                             <Hashtag
                               text={tag.name}
                               key={tag.name}
-                              onClick={onClickTag()}
+                              
                             />
                           ))}
                       </div>
