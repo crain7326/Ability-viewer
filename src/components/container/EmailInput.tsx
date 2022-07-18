@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import LabelInput from '../common/LabelInput';
 
 export interface EmailInpurProps {
