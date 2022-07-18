@@ -10,7 +10,10 @@ export interface BookEntity {
     book: string;
     delete: string;
   };
-  tags: string[];
+  tags?: {
+    links: { books: string };
+    name: string;
+  }[];
 }
 
 export interface BookDetailDto {

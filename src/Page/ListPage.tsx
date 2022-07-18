@@ -6,10 +6,11 @@ import bookApi from '../api/book';
 import { useNavigate } from 'react-router-dom';
 import { BookEntity } from '../api/book.dto';
 import { AxiosError } from 'axios';
+import axios from 'axios';
 
 const ListPage = () => {
   const [books, setBooks] = useState<BookEntity[]>([]);
-  const [tags, setTags] = useState<{ name: string; link: string }[]>([]);
+  const [tags, setTags] = useState<{ name: string; links: {books:string} }[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError>();
   const navigation = useNavigate();
@@ -29,6 +30,24 @@ const ListPage = () => {
     }
   };
 
+  const onClickTag = async (link: string) => {
+    setLoading(true);
+    const {data, status} = await axios.get(link, {
+        headers: {
+            Authorization: `Bearer ${userStorage.getToken()}`,
+        },
+    });
+    setLoading(false);
+
+    if (status === 500) {
+      setError(true);
+      return;
+    }
+
+    const books: BookEntity[] = data.books as BookEntity[];
+    setBooks(books);
+  };
+
   const goToBookDetail = (link: string) => () => {
     const bookId = link.split('books/')[1];
     navigation(`/book/${bookId}`);
@@ -36,6 +55,9 @@ const ListPage = () => {
 
   const combineTags = async () => {
     const token = userStorage.getToken();
+    if (!token) {
+      return;
+    }
     const { data, error } = await bookApi.getBookByTag(token);
     setTags(data.tags);
 
@@ -63,8 +85,12 @@ const ListPage = () => {
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
               {tags.length > 0 ? (
-                tags.map((tag, index) => (
-                  <Hashtag text={tag.name} key={tag.name} />
+                tags.map((tag) => (
+                  <Hashtag
+                    text={tag.name}
+                    key={tag.name}
+                    onClickTag={()=> {onClickTag(tag.links.books);}}
+                  />
                 ))
               ) : (
                 <p>태그가 없습니다.</p>
@@ -101,9 +127,14 @@ const ListPage = () => {
                         className="hashtagBox pt-8 pb-16 flex f-wrap"
                         style={{ borderBottom: '1px solid var(--gray--300)' }}
                       >
-                        {book.tags.map((tag) => (
-                          <Hashtag text={tag.name} key={tag.name} />
-                        ))}
+                        {book.tags &&
+                          book.tags.map((tag) => (
+                            <Hashtag
+                              text={tag.name}
+                              key={tag.name}
+                              
+                            />
+                          ))}
                       </div>
                     </li>
                   ))

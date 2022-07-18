@@ -1,16 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/base/Header';
-import ListPage from './Page/ListPage';
-import LoginPage from './Page/LoginPage';
-import Mypage from './Page/Mypage';
-import SignupPage from './Page/SignupPage';
-import ViewerPage from './Page/ViewerPage';
-import ViewerAll from './Page/ViewerAll';
-import FindUserPage from './Page/FindUserPage';
+import ListPage from './page/ListPage';
+import LoginPage from './page/LoginPage';
+import Mypage from './page/Mypage';
+import SignupPage from './page/SignupPage';
+import ViewerPage from './page/ViewerPage';
+import ViewerAll from './page/ViewerAll';
+import FindUserPage from './page/FindUserPage';
 import ErrorBoundary from './components/error/ErrorBoundary';
 import { useEffect, useState } from 'react';
 import storage from './helper/localStorage';
-import BookDetail from './Page/BookDetail';
+import BookDetail from './page/BookDetail';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
