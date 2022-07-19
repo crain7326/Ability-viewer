@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HashtagInput from './HashtagInput';
 import bookApi from '../../api/book';
@@ -8,13 +8,32 @@ import optionStore from '../../store/optionStore';
 import Hashtag from '../common/Hashtag';
 import Notification from '../common/Notification';
 
-const ViewerFrom = () => {
+const ViewerFrom = (bookDetail?: {
+  name?: string;
+  text?: string;
+  tags?: { name: string }[];
+}) => {
   // 내부 해시태그 string list object로 반환
   const [loading, setLoading] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [bookName, setBookName] = useState<{ name: string }>({ name: '' });
-  const [bookTags, setBookTags] = useState<{ name: string }[]>([]);
-  const [bookText, setBookText] = useState<{ text: string }>({ text: '' });
+  const [bookName, setBookName] = useState<{ name: string }>({
+    name: bookDetail?.text ?? '',
+  });
+  const [bookTags, setBookTags] = useState<{ name: string }[]>(
+    bookDetail?.tags ?? []
+  );
+  const [bookText, setBookText] = useState<{ text: string }>({
+    text: bookDetail?.text ?? '',
+  });
+
+  // useEffect(() => {
+  //   if (bookDetail?.text) {
+  //     setBookName({
+  //       name: bookDetail.name,
+  //     });
+  //     console.log('넣었음');
+  //   }
+  // }, [bookDetail]);
 
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
@@ -80,6 +99,7 @@ const ViewerFrom = () => {
             className="unset py-12"
             placeholder="제목을 입력하세요"
             onChange={onChangeBookTitle}
+            value={bookName.name}
             style={{ borderBottom: '1px solid var(--gray--300)' }}
           />
           <div
