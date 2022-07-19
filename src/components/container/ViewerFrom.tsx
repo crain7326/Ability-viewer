@@ -8,13 +8,24 @@ import optionStore from '../../store/optionStore';
 import Hashtag from '../common/Hashtag';
 import Notification from '../common/Notification';
 
-const ViewerFrom = () => {
+const ViewerFrom = (props: {
+  name?: { name: string };
+  tags?: { name: string }[];
+  text?: { text: string };
+}) => {
+  console.log(props);
   // 내부 해시태그 string list object로 반환
   const [loading, setLoading] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [bookName, setBookName] = useState<{ name: string }>({ name: '' });
-  const [bookTags, setBookTags] = useState<{ name: string }[]>([]);
-  const [bookText, setBookText] = useState<{ text: string }>({ text: '' });
+  const [bookName, setBookName] = useState<{ name: string }>(
+    props.name ? props.name : { name: '' }
+  );
+  const [bookTags, setBookTags] = useState<{ name: string }[]>(
+    props.tags ? props.tags : []
+  );
+  const [bookText, setBookText] = useState<{ text: string }>(
+    props.text ? props.text : { text: '' }
+  );
 
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
@@ -80,6 +91,7 @@ const ViewerFrom = () => {
             className="unset py-12"
             placeholder="제목을 입력하세요"
             onChange={onChangeBookTitle}
+            value={bookName.name}
             style={{ borderBottom: '1px solid var(--gray--300)' }}
           />
           <div
