@@ -43,7 +43,7 @@ const ViewerFrom = () => {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
     };
-    const { data, error } = await bookApi.createBook(inputData, token);
+    const { data, error } = await bookApi.createBook(inputData);
     setLoading(false);
     console.log(data);
 

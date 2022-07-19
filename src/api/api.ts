@@ -1,24 +1,47 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import userStorage from '../helper/localStorage';
 
 export interface Response<T> {
   data: T;
-  error: null | AxiosError;
+  error: AxiosError | null;
+  status: number | null;
 }
 
-async function api(config: AxiosRequestConfig, url: string) {
+export async function api(config: AxiosRequestConfig) {
   const result: Response<any> = {
     data: null,
     error: null,
+    status: null,
   };
 
   try {
-    const response = await axios({ ...config, url });
+    const response = await axios(config);
     result.data = response.data;
+    result.status = response.status;
   } catch (err) {
     result.error = err as AxiosError;
-  } finally {
-    return result;
   }
+  return result;
 }
 
-export default api;
+export async function apiWithToken(config: AxiosRequestConfig) {
+  const result: Response<any> = {
+    data: null,
+    error: null,
+    status: null,
+  };
+
+  try {
+    const response = await axios({
+      ...config,
+      headers: {
+        Authorization: `Bearer ${userStorage.getToken()}`,
+      },
+    });
+    result.data = response.data;
+    result.status = response.status;
+  } catch (err) {
+    result.error = err as AxiosError;
+  }
+  return result;
+}
