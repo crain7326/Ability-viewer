@@ -10,7 +10,9 @@ import axios from 'axios';
 
 const ListPage = () => {
   const [books, setBooks] = useState<BookEntity[]>([]);
-  const [tags, setTags] = useState<{ name: string; links: {books:string} }[]>([]);
+  const [tags, setTags] = useState<
+    { name: string; links: { books: string } }[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError>();
   const navigation = useNavigate();
@@ -32,10 +34,10 @@ const ListPage = () => {
 
   const onClickTag = async (link: string) => {
     setLoading(true);
-    const {data, status} = await axios.get(link, {
-        headers: {
-            Authorization: `Bearer ${userStorage.getToken()}`,
-        },
+    const { data, status } = await axios.get(link, {
+      headers: {
+        Authorization: `Bearer ${userStorage.getToken()}`,
+      },
     });
     setLoading(false);
 
@@ -58,7 +60,7 @@ const ListPage = () => {
     if (!token) {
       return;
     }
-    const { data, error } = await bookApi.getBookByTag(token);
+    const { data, error } = await bookApi.getBookByTag();
     setTags(data.tags);
 
     if (error) {
@@ -89,7 +91,9 @@ const ListPage = () => {
                   <Hashtag
                     text={tag.name}
                     key={tag.name}
-                    onClickTag={()=> {onClickTag(tag.links.books);}}
+                    onClickTag={() => {
+                      onClickTag(tag.links.books);
+                    }}
                   />
                 ))
               ) : (
@@ -129,11 +133,7 @@ const ListPage = () => {
                       >
                         {book.tags &&
                           book.tags.map((tag) => (
-                            <Hashtag
-                              text={tag.name}
-                              key={tag.name}
-                              
-                            />
+                            <Hashtag text={tag.name} key={tag.name} />
                           ))}
                       </div>
                     </li>
