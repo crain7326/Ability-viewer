@@ -17,7 +17,12 @@ import ViewerFrom from '../components/container/ViewerFrom';
 const BookDetail = () => {
   const { optionStore } = indexStore();
   const { id } = useParams();
-  const [bookDetail, setBookDetail] = useState<BookDetailEntity>();
+  const [bookDetail, setBookDetail] = useState<BookDetailEntity>({
+    links: { delete: '', update: '' },
+    name: '',
+    tags: [{ name: '' }],
+    text: '',
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AxiosError>();
   const setFontFamily = (e: MouseEvent<HTMLParagraphElement>) => {
@@ -34,7 +39,6 @@ const BookDetail = () => {
 
     if (data) {
       setBookDetail(data.book);
-      console.log(data);
     }
   };
 
@@ -117,11 +121,13 @@ const BookDetail = () => {
           </div>
         )}
       </div>
-      <ViewerFrom
-        name={bookDetail && { name: bookDetail.name }}
-        tags={bookDetail && bookDetail.tags}
-        text={bookDetail && { text: bookDetail.text }}
-      />
+      {bookDetail?.name && (
+        <ViewerFrom
+          name={bookDetail.name}
+          tags={bookDetail.tags}
+          text={bookDetail.text}
+        />
+      )}
     </div>
   );
 };

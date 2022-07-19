@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HashtagInput from './HashtagInput';
 import bookApi from '../../api/book';
@@ -8,24 +8,32 @@ import optionStore from '../../store/optionStore';
 import Hashtag from '../common/Hashtag';
 import Notification from '../common/Notification';
 
-const ViewerFrom = (props: {
-  name?: { name: string };
+const ViewerFrom = (bookDetail?: {
+  name?: string;
+  text?: string;
   tags?: { name: string }[];
-  text?: { text: string };
 }) => {
-  console.log(props);
   // 내부 해시태그 string list object로 반환
   const [loading, setLoading] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [bookName, setBookName] = useState<{ name: string }>(
-    props.name ? props.name : { name: '' }
-  );
+  const [bookName, setBookName] = useState<{ name: string }>({
+    name: bookDetail?.text ?? '',
+  });
   const [bookTags, setBookTags] = useState<{ name: string }[]>(
-    props.tags ? props.tags : []
+    bookDetail?.tags ?? []
   );
-  const [bookText, setBookText] = useState<{ text: string }>(
-    props.text ? props.text : { text: '' }
-  );
+  const [bookText, setBookText] = useState<{ text: string }>({
+    text: bookDetail?.text ?? '',
+  });
+
+  // useEffect(() => {
+  //   if (bookDetail?.text) {
+  //     setBookName({
+  //       name: bookDetail.name,
+  //     });
+  //     console.log('넣었음');
+  //   }
+  // }, [bookDetail]);
 
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
