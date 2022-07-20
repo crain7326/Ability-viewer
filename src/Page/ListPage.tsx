@@ -14,7 +14,7 @@ const ListPage = () => {
     { name: string; links: { books: string } }[]
   >([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError>();
+  const [error, setError] = useState<AxiosError| boolean>();
   const navigation = useNavigate();
 
   const getAllBooks = async () => {
@@ -34,11 +34,7 @@ const ListPage = () => {
 
   const onClickTag = async (link: string) => {
     setLoading(true);
-    const { data, status } = await axios.get(link, {
-      headers: {
-        Authorization: `Bearer ${userStorage.getToken()}`,
-      },
-    });
+    const { data, status } = await bookApi.getBookByTag(link);
     setLoading(false);
 
     if (status === 500) {
@@ -60,7 +56,7 @@ const ListPage = () => {
     if (!token) {
       return;
     }
-    const { data, error } = await bookApi.getBookByTag();
+    const { data, error } = await bookApi.getTagByBook();
     setTags(data.tags);
 
     if (error) {
