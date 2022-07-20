@@ -17,7 +17,7 @@ const ViewerFrom = (bookDetail?: {
   const [loading, setLoading] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [bookName, setBookName] = useState<{ name: string }>({
-    name: bookDetail?.text ?? '',
+    name: bookDetail?.name ?? '',
   });
   const [bookTags, setBookTags] = useState<{ name: string }[]>(
     bookDetail?.tags ?? []
@@ -26,14 +26,21 @@ const ViewerFrom = (bookDetail?: {
     text: bookDetail?.text ?? '',
   });
 
-  // useEffect(() => {
-  //   if (bookDetail?.text) {
-  //     setBookName({
-  //       name: bookDetail.name,
-  //     });
-  //     console.log('넣었음');
-  //   }
-  // }, [bookDetail]);
+  const settingText = () => {
+      setLoading(true);
+
+      optionStore.setText(bookText.text);
+      optionStore.text && optionStore.setTextBundle(optionStore.text);
+
+      setLoading(false)
+  }
+
+  useEffect(() => {
+    if (bookText) {
+      settingText();
+    }
+  }, [bookText])
+  
 
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
@@ -42,8 +49,7 @@ const ViewerFrom = (bookDetail?: {
     setBookText({ text: e.currentTarget.value });
 
   const onClickViewAllBtn = () => {
-    optionStore.setText(bookText.text);
-    optionStore.setTextBundle(optionStore.text);
+    settingText();
   };
 
   const onClickSaveBtn = () => {

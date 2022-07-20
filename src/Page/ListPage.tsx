@@ -56,12 +56,13 @@ const ListPage = () => {
     if (!token) {
       return;
     }
+    // 토큰 오류?시 여기서 자꾸 런타임에러뜸
     const { data, error } = await bookApi.getTagByBook();
-    setTags(data.tags);
-
     if (error) {
       setError(error);
+      return;
     }
+    setTags(data.tags);
   };
 
   useEffect(() => {
