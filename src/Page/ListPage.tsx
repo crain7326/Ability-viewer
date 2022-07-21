@@ -7,20 +7,22 @@ import { useNavigate } from 'react-router-dom';
 import { BookEntity } from '../api/book.dto';
 import { AxiosError } from 'axios';
 import axios from 'axios';
+import indexStore from '../store/indexStore';
 
 const ListPage = () => {
+  const { appStore } = indexStore();
+
   const [books, setBooks] = useState<BookEntity[]>([]);
   const [tags, setTags] = useState<
     { name: string; links: { books: string } }[]
   >([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError| boolean>();
+  const [error, setError] = useState<AxiosError | boolean>();
   const navigation = useNavigate();
 
   const getAllBooks = async () => {
-    setLoading(true);
+    appStore.setLoading(true);
     const { data, error } = await bookApi.getAllBooks();
-    setLoading(false);
+    appStore.setLoading(false);
 
     if (data) {
       const books: BookEntity[] = data.books as BookEntity[];
@@ -33,9 +35,9 @@ const ListPage = () => {
   };
 
   const onClickTag = async (link: string) => {
-    setLoading(true);
+    appStore.setLoading(true);
     const { data, status } = await bookApi.getBookByTag(link);
-    setLoading(false);
+    appStore.setLoading(false);
 
     if (status === 500) {
       setError(true);
@@ -73,7 +75,6 @@ const ListPage = () => {
     <>
       <div className="p-24 h-full">
         <div className="w-full h-full">
-          {loading && 'loading...'}
           {error && 'error!'}
           <article className="br-8 bg-white p-12 mb-8">
             <h3 className="px-4 py-8 font-bold hidden">태그</h3>

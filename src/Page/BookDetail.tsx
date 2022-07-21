@@ -15,7 +15,7 @@ import Toggle from '../components/Button/Toggle';
 import ViewerFrom from '../components/container/ViewerFrom';
 
 const BookDetail = () => {
-  const { optionStore } = indexStore();
+  const { optionStore, appStore } = indexStore();
   const { id } = useParams();
   const [bookDetail, setBookDetail] = useState<BookDetailEntity>({
     links: { delete: '', update: '' },
@@ -23,15 +23,15 @@ const BookDetail = () => {
     tags: [{ name: '' }],
     text: '',
   });
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AxiosError>();
   const setFontFamily = (e: MouseEvent<HTMLParagraphElement>) => {
     optionStore.setFontFamily(e.currentTarget.textContent as FontFamily);
   };
 
   const fetchBookDetail = async () => {
+    appStore.setLoading(true);
     const { data, error } = await bookApi.getBookById(id as string);
-    setLoading(false);
+    appStore.setLoading(false);
 
     if (error) {
       setError(error);
