@@ -10,8 +10,10 @@ import PrivacyForm from '../components/container/PrivacyForm';
 
 // api
 import authApi from '../api/auth';
+import indexStore from '../store/indexStore';
 
 const SignupPage = () => {
+  const { appStore } = indexStore();
   const navigate = useNavigate();
   const [user, setUser] = useState({
     id: '',
@@ -19,8 +21,7 @@ const SignupPage = () => {
     pw: '',
     pwValid: '',
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null) as any;
 
   const changeInput = (type: string, value: string) => {
     setUser((prevState) => {
@@ -29,13 +30,13 @@ const SignupPage = () => {
   };
 
   async function handleRegister() {
-    setLoading(true);
+    appStore.setLoading(true);
     const { data, error } = await authApi.register({
       id: user.id,
       email: user.email,
       password: user.pw,
     });
-    setLoading(false);
+    appStore.setLoading(false);
 
     if (data) {
       navigate('/login', { replace: true });
@@ -49,8 +50,6 @@ const SignupPage = () => {
   return (
     <div>
       <div className="px-24 py-24 w-full flex f-column f-ai-center">
-        {/* spinner */}
-        {loading && 'loading...'}
         {/* error 처리 */}
         {error && 'register error!'}
         <form onSubmit={(e) => e.preventDefault()}>

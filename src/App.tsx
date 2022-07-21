@@ -11,19 +11,23 @@ import ErrorBoundary from './components/error/ErrorBoundary';
 import { useEffect, useState } from 'react';
 import storage from './helper/localStorage';
 import BookDetail from './page/BookDetail';
+import Spinner from './components/common/Spinner';
+import indexStore from './store/indexStore';
+import { observer } from 'mobx-react-lite';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const { appStore } = indexStore();
 
   useEffect(() => {
     storage.getToken() ? setIsLogin(true) : setIsLogin(false);
   }, [isLogin]);
-  
- 
+
   return (
     <ErrorBoundary>
       <div className="App pretendard">
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+        <Spinner loading={appStore.loading} />
         <main className="h-main bg-100">
           <Routes>
             <Route path="/" element={<ViewerPage />} />
@@ -44,4 +48,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

@@ -12,6 +12,7 @@ import storage from '../helper/localStorage';
 // component
 import LabelInput from '../components/common/LabelInput';
 import Notification from '../components/common/Notification';
+import indexStore from '../store/indexStore';
 
 interface ResponseLogin {
   id: string;
@@ -22,6 +23,7 @@ interface ResponseLogin {
 }
 
 const LoginPage = (props: { setIsLogin: Function }) => {
+  const { appStore } = indexStore();
   let navigate = useNavigate();
 
   const [loginId, setLoginId] = useState('');
@@ -38,12 +40,12 @@ const LoginPage = (props: { setIsLogin: Function }) => {
       return;
     }
 
-    setLoading(true);
+    appStore.setLoading(true);
     const { data, error } = await authApi.login({
       id: loginId,
       password: loginPw,
     });
-    setLoading(false);
+    appStore.setLoading(false);
 
     if (data) {
       props.setIsLogin(true);
