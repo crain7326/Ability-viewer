@@ -7,6 +7,7 @@ import SignupPage from './page/SignupPage';
 import ViewerPage from './page/ViewerPage';
 import ViewerAll from './page/ViewerAll';
 import FindUserPage from './page/FindUserPage';
+import NotFound from './page/NotFound';
 import ErrorBoundary from './components/error/ErrorBoundary';
 import { useEffect, useState } from 'react';
 import storage from './helper/localStorage';
@@ -41,6 +42,7 @@ function App() {
             />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/find_user" element={<FindUserPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
       </div>
