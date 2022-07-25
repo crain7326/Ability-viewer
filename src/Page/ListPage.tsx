@@ -6,7 +6,6 @@ import bookApi from '../api/book';
 import { useNavigate } from 'react-router-dom';
 import { BookEntity } from '../api/book.dto';
 import { AxiosError } from 'axios';
-import axios from 'axios';
 import indexStore from '../store/indexStore';
 
 const ListPage = () => {
@@ -77,10 +76,10 @@ const ListPage = () => {
         <div className="w-full h-full">
           {error && 'error!'}
           <article className="br-8 bg-white p-12 mb-8">
-            <h3 className="px-4 py-8 font-bold hidden">태그</h3>
+            <h3 className="px-12 py-8 font-bold ">태그</h3>
             <ul
               id="hashtagList"
-              className="pl-4 py-8 flex"
+              className="px-12 py-8 flex"
               style={{ overflowY: 'hidden', overflowX: 'auto' }}
             >
               {tags.length > 0 ? (

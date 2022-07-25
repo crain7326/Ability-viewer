@@ -1,9 +1,5 @@
 import React, {
-  useState,
-  ChangeEvent,
-  KeyboardEvent,
   MouseEvent,
-  SyntheticEvent,
 } from 'react';
 
 import indexStore from '../store/indexStore';
