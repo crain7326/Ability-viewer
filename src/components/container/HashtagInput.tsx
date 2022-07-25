@@ -3,17 +3,17 @@ import React, {
   SyntheticEvent,
   useState,
   KeyboardEvent,
-  Dispatch,
   SetStateAction,
+  Dispatch,
 } from 'react';
 
 interface HashTagInputType {
   tags: { name: string }[];
-  setTags: ([]) => void;
+  setTags: Dispatch<SetStateAction<{ name: string }[]>>;
 }
 
 const HashtagInput = ({ setTags, tags }: HashTagInputType) => {
-  const [inputHashtagVal, setInputHashtagVal] = useState<string>();
+  const [inputHashtagVal, setInputHashtagVal] = useState<string>('');
 
   const onChangeHashtag = (e: ChangeEvent<HTMLInputElement>) => {
     const currentValue = e.currentTarget.value;
@@ -27,10 +27,26 @@ const HashtagInput = ({ setTags, tags }: HashTagInputType) => {
     setTags([...tags]);
   };
 
+  const makeUniqTags = (tagArr: { name: string }[]) => {
+    const tagsCopy = [...tagArr];
+
+    const uniqTags = tagsCopy.reduce(function (acc, current) {
+      if (acc.findIndex(({ name }) => name === current.name) === -1) {
+        acc.push(current);
+      }
+      return acc;
+    }, []);
+
+    return uniqTags;
+  };
+
   const addHashtag = (e: SyntheticEvent<HTMLInputElement>) => {
-    setTags((prev): any => [...prev, { name: inputHashtagVal }]);
+    const newTags = [...tags, { name: inputHashtagVal }];
+    const uniqTags = makeUniqTags(newTags);
+    setTags(uniqTags);
 
     e.currentTarget.value = '';
+    setInputHashtagVal('');
   };
 
   const keyEvent = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -54,8 +70,8 @@ const HashtagInput = ({ setTags, tags }: HashTagInputType) => {
   return (
     <>
       <input
-        className="unset py-8 mb-4"
-        placeholder="해시태그를 입력하세요"
+        className='unset py-8 mb-4'
+        placeholder='해시태그를 입력하세요'
         onKeyUp={keyEvent}
         onChange={onChangeHashtag}
       />
