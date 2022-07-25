@@ -12,6 +12,7 @@ import storage from '../helper/localStorage';
 // component
 import LabelInput from '../components/common/LabelInput';
 import indexStore from '../store/indexStore';
+
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
 
@@ -128,8 +129,7 @@ const LoginPage = (props: { setIsLogin: Function }) => {
                     >
                         로그인
                     </button>
-                    <ToastContainer
-                    />
+                    <ToastContainer />
                 </form>
 
                 <Link to='/find_user'>아이디 | 비밀번호 찾기</Link>
