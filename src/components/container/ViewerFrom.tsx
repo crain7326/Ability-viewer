@@ -129,7 +129,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
                   <Hashtag key={index} text={object.name} />
                 ))}
             </div>
-            <HashtagInput setTags={setBookTags} tags={bookTags} />
+            <HashtagInput tags={bookTags} setTags={setBookTags} />
           </div>
           <textarea
             onChange={onChangeBookText}
