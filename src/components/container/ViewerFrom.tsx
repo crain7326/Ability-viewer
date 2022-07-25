@@ -134,7 +134,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
           <textarea
             onChange={onChangeBookText}
             className='unset border-box py-12 user_text'
-            defaultValue={optionStore.text}
+            value={bookText.text}
             style={{ height: 500 }}
             placeholder='내용을 입력하세요'
           />
