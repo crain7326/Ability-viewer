@@ -39,6 +39,17 @@ class OptionStore {
   paragraphHeigth = `ridi_ph_${this.paragraphHeigthNum}`;
   // 줄 간격
   lineHeigth = `ridi_lh_${this.lineHeigthNum}`;
+
+  // 제목
+  title: string | undefined = '';
+  setTitle(_title: string | undefined) {
+    this.title = _title;
+  }
+  // 태그
+  tags: { name: string }[] | undefined;
+  setTags(_tags: { name: string }[] | undefined) {
+    this.tags = _tags;
+  }
   // 사용자 입력 Text
   text: string | undefined = '';
   setText(_text: string | undefined) {
@@ -120,12 +131,16 @@ class OptionStore {
       fontSize: observable,
       paragraphHeigth: observable,
       lineHeigth: observable,
-      text: observable,
       viewerType: observable,
       textBundle: observable,
+      title: observable,
+      text: observable,
+      tags: observable,
 
       // action 등록
+      setTitle: action,
       setText: action,
+      setTags: action,
       optionPlus: action,
       optionMinus: action,
       setViewerType: action,
