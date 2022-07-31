@@ -728,3 +728,7 @@
 #hashtagList > * {
   flex: 0 0 auto;
 }
+
+.btn-book-delete:hover {
+  background-color: #d4d4d8;
+}
