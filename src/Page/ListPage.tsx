@@ -8,6 +8,8 @@ import { BookEntity } from '../api/book.dto';
 import { AxiosError } from 'axios';
 import indexStore from '../store/indexStore';
 
+import { AiOutlineDelete } from 'react-icons/ai';
+
 const ListPage = () => {
   const { appStore } = indexStore();
 
@@ -65,6 +67,21 @@ const ListPage = () => {
     }
   };
 
+  const onClickDelete = async (e: MouseEvent, link: string) => {
+    e.stopPropagation();
+    if (!window.confirm('삭제하시겠습니까?')) return;
+
+    appStore.setLoading(true);
+    const { data, error } = await bookApi.deleteBook(link);
+    appStore.setLoading(false);
+
+    if (error) {
+      setError(error);
+    }
+
+    getAllBooks();
+  };
+
   useEffect(() => {
     getAllBooks();
     combineTags();
@@ -114,6 +131,7 @@ const ListPage = () => {
                     <li
                       id={book.name}
                       className="pt-16"
+                      style={{ position: 'relative' }}
                       key={index}
                       onClick={goToBookDetail(book.links.book)}
                     >
@@ -131,6 +149,22 @@ const ListPage = () => {
                           book.tags.map((tag) => (
                             <Hashtag text={tag.name} key={tag.name} />
                           ))}
+                      </div>
+                      <div
+                        className="p-12 btn-book-delete"
+                        style={{
+                          position: 'absolute',
+                          top: 'calc(50% - 20px)',
+                          right: 0,
+                          cursor: 'pointer',
+                          borderRadius: '50%',
+                          transition: '0.3s',
+                        }}
+                        onClick={(e: MouseEvent) =>
+                          onClickDelete(e, book.links.delete)
+                        }
+                      >
+                        <AiOutlineDelete />
                       </div>
                     </li>
                   ))
