@@ -138,7 +138,7 @@ const ListPage = () => {
                       <div className="bookHeader flex f-ai-end">
                         <h5 className="font-bold">{book.name}</h5>
                         <span className="tc-500 ml-4 fs-14">
-                          {book.createdAt}
+                          {new Date(book.createdAt).toLocaleString()}
                         </span>
                       </div>
                       <div
