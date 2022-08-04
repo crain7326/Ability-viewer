@@ -64,20 +64,30 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   };
 
   const handdleCreateBook = async function () {
-    if (bookName.name === '') {
-      setNotifyMessage('제목을 입력해주세요.');
-      return;
+    // 유효성 검사
+    const validation = {
+      name: (text: string) => {
+          if (text === '') {
+            return '제목을 입력해주세요'
+          }
+      },
+      description: (text: string) => {
+        if (text === '') {
+          return '내용을 입력해주세요'
+        }
+      },
+      token: (token: string| false) => {
+        if (!token) {
+          return '로그인이 필요합니다.'
+        } 
+      }
     }
-    if (bookText.text === '') {
-      setNotifyMessage('내용을 입력해주세요.');
-      return;
-    }
+    
     const token = storage.getToken();
-    if (!token) {
-      setNotifyMessage('로그인이 필요합니다.');
-      return;
-    }
+    const errorMsg = validation.token(token) || validation.name(bookName.name) || validation.description(bookText.text) || undefined
+    setNotifyMessage(errorMsg)
 
+    // api 호출
     appStore.setLoading(true);
     const inputData = {
       book: { ...bookName, ...bookText },
@@ -86,9 +96,6 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     const { data, error } = await bookApi.createBook(inputData);
     appStore.setLoading(false);
 
-    if (!data) {
-      setNotifyMessage('토큰이 만료됐습니다. 다시 로그인 해주세요');
-    }
     if (data.success === true) {
       toast.success('저장 완료');
     }
