@@ -11,11 +11,11 @@ const Header = (props: { isLogin: boolean; setIsLogin: Function }) => {
   };
 
   return (
-    <header className="h-50 flex f-ai-center f-jc-between">
+    <header className="h-50 flex f-ai-center f-jc-between bg-white px-24">
       <h1>
         <LogoFull />
       </h1>
-      <nav id="nav" className="pr-24">
+      <nav id="nav" >
         {props.isLogin ? (
           <>
             <Link to="/list" className="mr-8">

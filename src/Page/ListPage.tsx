@@ -120,8 +120,8 @@ const ListPage = () => {
               className="flex py-4 font-bold hidden"
               style={{ textAlign: 'center' }}
             >
-              <li style={{ flexBasis: '100%', cursor: 'pointer' }}>글</li>
-              <li style={{ flexBasis: '100%', cursor: 'pointer' }}>책장</li>
+              <li className='basis-full cursor-pointer'>글</li>
+              <li className='basis-full cursor-pointer'>책장</li>
             </ul>
             <section>
               <h3 className="hidden">글 목록</h3>

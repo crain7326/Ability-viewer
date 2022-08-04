@@ -16,8 +16,8 @@ const FindUserPage = () => {
           ></input>
           <button
             type="submit"
-            className="unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8"
-            style={{ textAlign: 'center', cursor: 'pointer' }}
+            className="unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8 cursor-pointer"
+            style={{ textAlign: 'center' }}
           >
             인증번호 요청하기
           </button>
@@ -45,8 +45,8 @@ const FindUserPage = () => {
 
           <button
             type="submit"
-            className="unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8"
-            style={{ textAlign: 'center', cursor: 'pointer' }}
+            className="unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8 cursor-pointer"
+            style={{ textAlign: 'center' }}
           >
             비밀번호 변경 이메일 받기
           </button>

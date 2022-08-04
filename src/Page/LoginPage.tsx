@@ -123,7 +123,7 @@ const LoginPage = (props: { setIsLogin: Function }) => {
                     />
 
                     <button
-                        className='unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8'
+                        className='unset border-box br-8 b-500 bg-500 tc-50 w-full px-16 py-12 my-8 cursor-pointer'
                         style={{ textAlign: "center", cursor: "pointer" }}
                         onClick={handleLogin}
                     >

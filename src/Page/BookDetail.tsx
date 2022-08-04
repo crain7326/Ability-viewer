@@ -64,7 +64,7 @@ const BookDetail = () => {
       <div className="ViewerSetting mx-20 mt-12 bg-white p-12 br-12">
         <div className="ViewerSettingDetail flex f-ai-center f-jc-between my-8">
           <p className="flex f-ai-center">글꼴</p>
-          <p className="flex mb-4" style={{ cursor: 'pointer' }}>
+          <p className="flex mb-4 cursor-pointer" >
             <span
               className={
                 optionStore.fontFamily === 'KoPub 바탕' ? 'tc-900' : 'tc-300'
