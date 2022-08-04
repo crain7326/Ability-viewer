@@ -33,8 +33,8 @@ function ControlPlus({type}: ControlType) {
 const Control = ({type}: ControlType) => {
   return (
     <div 
-      className='control_wrap fs-16'
-      style={{cursor: 'pointer', lineHeight: '1.5rem'}}
+      className='control_wrap fs-16 cursor-pointer'
+      style={{ lineHeight: '1.5rem'}}
     >
       <ControlMinus type={type} />
       <ControlPlus type={type}/>

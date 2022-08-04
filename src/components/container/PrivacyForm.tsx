@@ -80,10 +80,9 @@ const PrivacyForm = (props: {
                     개인정보수집 및 이용 동의
                 </label>
                 <a
-                    className='ml-8'
+                    className='ml-8 cursor-pointer'
                     style={{
                         borderBottom: "1px solid black",
-                        cursor: "pointer",
                     }}
                     onClick={() => {
                         setActive(!active);

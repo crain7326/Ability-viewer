@@ -11,8 +11,8 @@ const Toggle = () => {
     setLeft(4);
   }
   return (
-    <div className='btnToggle-wrap'
-      style={{position: 'relative', cursor: 'pointer'}}
+    <div className='btnToggle-wrap, cursor-pointer'
+      style={{ position: 'relative' }}
       onClick={handleClick}
     >
       {/* 테두리 */}

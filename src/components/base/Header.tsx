@@ -11,7 +11,7 @@ const Header = (props: { isLogin: boolean; setIsLogin: Function }) => {
   };
 
   return (
-    <header className="h-50 flex f-ai-center f-jc-between">
+    <header className="h-50 flex f-ai-center f-jc-between bg-white">
       <h1>
         <LogoFull />
       </h1>
