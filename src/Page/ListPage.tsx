@@ -89,8 +89,7 @@ const ListPage = () => {
 
   return (
     <>
-      <div className="p-24 h-full">
-        <div className="w-full h-full">
+      <div className="p-24">
           {error && 'error!'}
           <article className="br-8 bg-white p-12 mb-8">
             <h3 className="px-12 py-8 font-bold ">태그</h3>
@@ -115,14 +114,7 @@ const ListPage = () => {
             </ul>
           </article>
 
-          <div className="br-8 bg-white h-full py-12 px-24">
-            <ul
-              className="flex py-4 font-bold hidden"
-              style={{ textAlign: 'center' }}
-            >
-              <li className='basis-full cursor-pointer'>글</li>
-              <li className='basis-full cursor-pointer'>책장</li>
-            </ul>
+          <div className="br-8 bg-white py-12 px-24" style={{overflowY:"auto"}}>
             <section>
               <h3 className="hidden">글 목록</h3>
               <ul>
@@ -173,7 +165,6 @@ const ListPage = () => {
                 )}
               </ul>
             </section>
-          </div>
         </div>
       </div>
     </>

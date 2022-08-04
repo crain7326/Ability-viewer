@@ -48,8 +48,8 @@ const SignupPage = () => {
   }
 
   return (
-    <div>
-      <div className="px-24 py-24 w-full flex f-column f-ai-center">
+    <>
+      <div className="px-24 py-24 h-main">
         {/* error 처리 */}
         {error && 'register error!'}
         <form onSubmit={(e) => e.preventDefault()}>
@@ -92,7 +92,7 @@ const SignupPage = () => {
           <PrivacyForm user={user} handleRegister={handleRegister} />
         </form>
       </div>
-    </div>
+    </>
   );
 };
 

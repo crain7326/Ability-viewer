@@ -4,7 +4,7 @@ const ViewerAll = () => {
   const { optionStore } = indexStore();
 
   return (
-    <div className="bg-white h-full pt-24">
+    <div className="bg-white pt-24">
       {optionStore.textBundle.map((text, index) => (
         <p
           key={index}

@@ -33,7 +33,7 @@ function App() {
         <div className='m-auto' style={{ maxWidth: "480px", height:"100vh"}}>
           <Header isLogin={isLogin} setIsLogin={setIsLogin} />
           <Spinner loading={appStore.loading} />
-          <main className='bg-100 h-main'>
+          <main className='bg-100'>
             <Routes>
               <Route path='/' element={<ViewerPage />} />
               <Route path='/book/:id' element={<BookDetail />} />
