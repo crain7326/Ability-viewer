@@ -29,8 +29,8 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className='App pretendard bg-300 ' >
-        <div className='m-auto' style={{maxWidth:"480px"}}>
+      <div className='App pretendard' >
+        <div className='m-auto' style={{ maxWidth: "480px", height:"100vh"}}>
           <Header isLogin={isLogin} setIsLogin={setIsLogin} />
           <Spinner loading={appStore.loading} />
           <main className='bg-100'>
