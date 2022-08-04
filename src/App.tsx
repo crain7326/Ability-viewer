@@ -14,7 +14,7 @@ import ViewerPage from './page/ViewerPage';
 import ViewerAll from './page/ViewerAll';
 import FindUserPage from './page/FindUserPage';
 import NotFound from './page/NotFound';
-import BookDetail from "./page/BookDetail";
+import BookDetail from './page/BookDetail';
 
 import storage from './helper/localStorage';
 import indexStore from './store/indexStore';
@@ -29,25 +29,27 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className='App pretendard'>
-        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
-        <Spinner loading={appStore.loading} />
-        <main className='h-main bg-100'>
-          <Routes>
-            <Route path='/' element={<ViewerPage />} />
-            <Route path='/book/:id' element={<BookDetail />} />
-            <Route path='/viewer_all' element={<ViewerAll />} />
-            <Route path='/list' element={<ListPage />} />
-            <Route path='/mypage' element={<Mypage />} />
-            <Route
-              path='/login'
-              element={<LoginPage setIsLogin={setIsLogin} />}
-            />
-            <Route path='/signup' element={<SignupPage />} />
-            <Route path='/find_user' element={<FindUserPage />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-        </main>
+      <div className='App pretendard bg-300 ' >
+        <div className='m-auto' style={{maxWidth:"480px"}}>
+          <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+          <Spinner loading={appStore.loading} />
+          <main className='bg-100'>
+            <Routes>
+              <Route path='/' element={<ViewerPage />} />
+              <Route path='/book/:id' element={<BookDetail />} />
+              <Route path='/viewer_all' element={<ViewerAll />} />
+              <Route path='/list' element={<ListPage />} />
+              <Route path='/mypage' element={<Mypage />} />
+              <Route
+                path='/login'
+                element={<LoginPage setIsLogin={setIsLogin} />}
+              />
+              <Route path='/signup' element={<SignupPage />} />
+              <Route path='/find_user' element={<FindUserPage />} />
+              <Route path='*' element={<NotFound />} />
+            </Routes>
+          </main>
+        </div>
       </div>
     </ErrorBoundary>
   );

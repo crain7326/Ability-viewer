@@ -19,7 +19,6 @@
 .border-box {
   box-sizing: border-box;
 }
-
 /*** font ***/
 /* font-family */
 @font-face {
@@ -65,6 +64,9 @@
 }
 
 /*** margin ***/
+.m-auto {
+  margin: 0 auto;
+}
 .m-4 {
   margin: 4px;
 }
@@ -719,10 +721,20 @@
   flex-wrap: wrap;
 }
 /* basis */
-.f-basis {
-  flex-basis: 0;
+.basis-full {
+  flex-basis: 100%;
 }
 
+/* etc */
+.cursor-pointer {
+  cursor: pointer;
+}
+.text-center{
+  text-align: center;
+}
+.overflow-hidden{
+  overflow: hidden;
+}
 /* 임시 */
 
 #hashtagList > * {
