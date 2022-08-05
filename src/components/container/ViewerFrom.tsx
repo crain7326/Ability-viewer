@@ -62,7 +62,8 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   };
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    bookDetail ? handdleUpdateBook() : handdleCreateBook();
+    const isListPage = bookDetail === {}
+    isListPage ? handdleUpdateBook() : handdleCreateBook();
   };
 
   const validationBook = function () {
@@ -87,12 +88,13 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     const token = storage.getToken();
     const errorMsg = validation.token(token) || validation.name(bookName.name) || validation.description(bookText.text) || undefined
     setNotifyMessage(errorMsg)
+    return errorMsg
   }
   const handdleUpdateBook = async function () {
-    if (!bookDetail) {
+    const errorMsg = validationBook();
+    if (errorMsg) {
       return;
     }
-    validationBook();
     appStore.setLoading(true);
     const inputData = {
       book: { ...bookName, ...bookText },
@@ -109,9 +111,12 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
       setNotifyMessage('error!');
     }
   }
-  
+
   const handdleCreateBook = async function () {
-    validationBook();
+    const errorMsg = validationBook();
+    if (errorMsg) {
+      return;
+    }
     // api 호출
     appStore.setLoading(true);
     const inputData = {
@@ -120,7 +125,6 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     };
     const { data, error } = await bookApi.createBook(inputData);
     appStore.setLoading(false);
-
     if (data.success === true) {
       toast.success('저장 완료');
     }
@@ -138,9 +142,9 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
         <Link to='/viewer_all' onClick={onClickViewAllBtn}>
           전체보기
         </Link>
-        <Link to='/' className='ml-12' onClick={onClickSaveBtn}>
+        <button className='ml-12' onClick={onClickSaveBtn}>
           저장
-        </Link>
+        </button>
       </div>
       <div className='TextViewer'>
         <div className='bg-white flex f-column br-12 py-12 px-24'>
