@@ -39,7 +39,6 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const [bookText, setBookText] = useState<{ text: string }>({
     text: bookDetail?.text ?? '',
   });
-
   // 초기 셋팅
   useEffect(() => {
     optionStore.title && setBookName({ name: optionStore.title });
@@ -60,10 +59,12 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     optionStore.setText(bookText.text);
     optionStore.text && optionStore.setTextBundle(optionStore.text);
   };
+
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    const isListPage = bookDetail === {}
-    isListPage ? handdleUpdateBook() : handdleCreateBook();
+    const isBookDetailPage = bookDetail.hasOwnProperty('name')
+    
+    handdleCreateBook(isBookDetailPage);
   };
 
   const validationBook = function () {
@@ -90,46 +91,41 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     setNotifyMessage(errorMsg)
     return errorMsg
   }
-  const handdleUpdateBook = async function () {
+
+  const handdleCreateBook = async function (isCreated: boolean) {
+    // 유효성 검사
     const errorMsg = validationBook();
     if (errorMsg) {
       return;
     }
+
     appStore.setLoading(true);
     const inputData = {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
     };
-    const updateUrl = bookDetail.link.update
-    const { data, error } = await bookApi.updateBook(inputData, updateUrl)
-    appStore.setLoading(false);
 
-    if (data.success === true) {
-      toast.success('업데이트 완료');
+    if (isCreated) {
+      const { data, error } = await bookApi.createBook(inputData);
+      appStore.setLoading(false);
+      if (data.success === true) {
+        toast.success('저장 완료');
+      }
+      if (error) {
+        setNotifyMessage('error!');
+      }
     }
-    if (error) {
-      setNotifyMessage('error!');
-    }
-  }
 
-  const handdleCreateBook = async function () {
-    const errorMsg = validationBook();
-    if (errorMsg) {
-      return;
-    }
-    // api 호출
-    appStore.setLoading(true);
-    const inputData = {
-      book: { ...bookName, ...bookText },
-      tags: [...bookTags],
-    };
-    const { data, error } = await bookApi.createBook(inputData);
-    appStore.setLoading(false);
-    if (data.success === true) {
-      toast.success('저장 완료');
-    }
-    if (error) {
-      setNotifyMessage('error!');
+    if(!isCreated){
+      const updateUrl = bookDetail.link.update
+      const { data, error } = await bookApi.updateBook(inputData, updateUrl);
+      appStore.setLoading(false);
+      if (data.success === true) {
+        toast.success('저장 완료');
+      }
+      if (error) {
+        setNotifyMessage('error!');
+      }
     }
   };
   return (
