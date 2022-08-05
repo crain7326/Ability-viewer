@@ -126,6 +126,7 @@ const BookDetail = () => {
           name={bookDetail.name}
           tags={bookDetail.tags}
           text={bookDetail.text}
+          link={bookDetail.links}
         />
       )}
     </div>

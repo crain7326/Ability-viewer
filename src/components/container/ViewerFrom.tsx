@@ -14,6 +14,7 @@ interface ViewerFromProps {
   name?: string;
   text?: string;
   tags?: { name: string }[];
+  link?: { delete: '', update: '' }
 }
 const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const { appStore, optionStore } = indexStore();
@@ -46,6 +47,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     optionStore.tags && setBookTags(optionStore.tags);
   }, [optionStore.text, optionStore.title, optionStore.tags]);
 
+  
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
 
@@ -60,11 +62,10 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   };
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    handdleCreateBook();
+    bookDetail ? handdleUpdateBook() : handdleCreateBook();
   };
 
-  const handdleCreateBook = async function () {
-    // 유효성 검사
+  const validationBook = function () {
     const validation = {
       name: (text: string) => {
           if (text === '') {
@@ -86,7 +87,31 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     const token = storage.getToken();
     const errorMsg = validation.token(token) || validation.name(bookName.name) || validation.description(bookText.text) || undefined
     setNotifyMessage(errorMsg)
+  }
+  const handdleUpdateBook = async function () {
+    if (!bookDetail) {
+      return;
+    }
+    validationBook();
+    appStore.setLoading(true);
+    const inputData = {
+      book: { ...bookName, ...bookText },
+      tags: [...bookTags],
+    };
+    const updateUrl = bookDetail.link.update
+    const { data, error } = await bookApi.updateBook(inputData, updateUrl)
+    appStore.setLoading(false);
 
+    if (data.success === true) {
+      toast.success('업데이트 완료');
+    }
+    if (error) {
+      setNotifyMessage('error!');
+    }
+  }
+  
+  const handdleCreateBook = async function () {
+    validationBook();
     // api 호출
     appStore.setLoading(true);
     const inputData = {
@@ -114,10 +139,10 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
           전체보기
         </Link>
         <Link to='/' className='ml-12' onClick={onClickSaveBtn}>
-          저장하기
+          저장
         </Link>
       </div>
-      <div className='Viewer'>
+      <div className='TextViewer'>
         <div className='bg-white flex f-column br-12 py-12 px-24'>
           <input
             className='unset py-12'
