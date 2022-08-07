@@ -135,13 +135,13 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     <>
       <ToastContainer />
       <div
-        className='ViewerBtn tc-500 mx-20 my-12'
+        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-end'
         style={{ textAlign: 'right' }}
       >
-        <Link to='/viewer_all' onClick={onClickViewAllBtn}>
-          전체보기
+        <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
+          미리보기
         </Link>
-        <button className='ml-12' onClick={onClickSaveBtn}>
+        <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
           저장
         </button>
       </div>
