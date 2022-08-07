@@ -385,54 +385,54 @@ body {
 }
 
 /*** hover background-color ***/
-.hover-bg-50:hover {
+.hover\:bg-50:hover {
   background-color: var(--gray--50);
 }
-.hover-bg-100:hover {
+.hover\:bg-100:hover {
   background-color: var(--gray--100);
 }
-.hover-bg-300:hover {
+.hover\:bg-300:hover {
   background-color: var(--gray--300);
 }
-.hover-bg-400:hover {
+.hover\:bg-400:hover {
   background-color: var(--gray--400);
 }
-.hover-bg-500:hover {
+.hover\:bg-500:hover {
   background-color: var(--gray--500);
 }
-.hover-bg-800:hover {
+.hover\:bg-800:hover {
   background-color: var(--gray--800);
 }
-.hover-bg-900:hover {
+.hover\:bg-900:hover {
   background-color: var(--gray--900);
 }
-.hover-bg-white:hover {
+.hover\:bg-white:hover {
   background-color: var(--white);
 }
 
 /*** hover text-color ***/
-.hover-tc-50:hover {
+.hover\:tc-50:hover {
   color: var(--gray--50);
 }
-.hover-tc-100:hover {
+.hover\:tc-100:hover {
   color: var(--gray--100);
 }
-.hover-tc-300:hover {
+.hover\:tc-300:hover {
   color: var(--gray--300);
 }
-.hover-tc-400:hover {
+.hover\:tc-400:hover {
   color: var(--gray--400);
 }
-.hover-tc-500:hover {
+.hover\:tc-500:hover {
   color: var(--gray--500);
 }
-.hover-tc-800:hover {
+.hover\:tc-800:hover {
   color: var(--gray--800);
 }
-.hover-tc-900:hover {
+.hover\:tc-900:hover {
   color: var(--gray--900);
 }
-.hover-tc-white:hover {
+.hover\:tc-white:hover {
   color: var(--white);
 }
 
@@ -696,7 +696,7 @@ body {
   justify-content: flex-start;
 }
 .f-jc-end {
-  justify-content: flex-end;
+  justify-content: flex-end; 
 }
 /* align-item */
 .f-ai-center {

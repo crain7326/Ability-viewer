@@ -14,6 +14,7 @@ interface ViewerFromProps {
   name?: string;
   text?: string;
   tags?: { name: string }[];
+  link?: { delete: '', update: '' }
 }
 const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const { appStore, optionStore } = indexStore();
@@ -38,7 +39,6 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const [bookText, setBookText] = useState<{ text: string }>({
     text: bookDetail?.text ?? '',
   });
-
   // 초기 셋팅
   useEffect(() => {
     optionStore.title && setBookName({ name: optionStore.title });
@@ -46,6 +46,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     optionStore.tags && setBookTags(optionStore.tags);
   }, [optionStore.text, optionStore.title, optionStore.tags]);
 
+  
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
 
@@ -58,23 +59,44 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     optionStore.setText(bookText.text);
     optionStore.text && optionStore.setTextBundle(optionStore.text);
   };
+
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    handdleCreateBook();
+    const isBookDetailPage = bookDetail.hasOwnProperty('name')
+    
+  // 이미생성됨 ? true -> update : false -> create
+  handdleSaveBook(isBookDetailPage);
   };
 
-  const handdleCreateBook = async function () {
-    if (bookName.name === '') {
-      setNotifyMessage('제목을 입력해주세요.');
-      return;
+  const validationBook = function () {
+    const validation = {
+      name: (text: string) => {
+          if (text === '') {
+            return '제목을 입력해주세요'
+          }
+      },
+      description: (text: string) => {
+        if (text === '') {
+          return '내용을 입력해주세요'
+        }
+      },
+      token: (token: string| false) => {
+        if (!token) {
+          return '로그인이 필요합니다.'
+        } 
+      }
     }
-    if (bookText.text === '') {
-      setNotifyMessage('내용을 입력해주세요.');
-      return;
-    }
+    
     const token = storage.getToken();
-    if (!token) {
-      setNotifyMessage('로그인이 필요합니다.');
+    const errorMsg = validation.token(token) || validation.name(bookName.name) || validation.description(bookText.text) || undefined
+    setNotifyMessage(errorMsg)
+    return errorMsg
+  }
+
+  const handdleSaveBook = async function (isCreated: boolean) {
+    // 유효성 검사
+    const errorMsg = validationBook();
+    if (errorMsg) {
       return;
     }
 
@@ -83,34 +105,47 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
     };
-    const { data, error } = await bookApi.createBook(inputData);
-    appStore.setLoading(false);
+    
+    if(isCreated){
+      const updateUrl = bookDetail.link.update
+      const { data, error } = await bookApi.updateBook(inputData, updateUrl);
+      appStore.setLoading(false);
+      if (data.success === true) {
+        toast.success('업데이트 완료');
+      }
+      if (error) {
+        setNotifyMessage('error!');
+      }
+    }
+    
+    if (!isCreated) {
+      const { data, error } = await bookApi.createBook(inputData);
+      appStore.setLoading(false);
+      if (data.success === true) {
+        toast.success('저장 완료');
+      }
+      if (error) {
+        setNotifyMessage('error!');
+      }
+    }
 
-    if (!data) {
-      setNotifyMessage('토큰이 만료됐습니다. 다시 로그인 해주세요');
-    }
-    if (data.success === true) {
-      toast.success('저장 완료');
-    }
-    if (error) {
-      setNotifyMessage('error!');
-    }
   };
+
   return (
     <>
       <ToastContainer />
       <div
-        className='ViewerBtn tc-500 mx-20 my-12'
+        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-end'
         style={{ textAlign: 'right' }}
       >
-        <Link to='/viewer_all' onClick={onClickViewAllBtn}>
-          전체보기
+        <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
+          미리보기
         </Link>
-        <Link to='/' className='ml-12' onClick={onClickSaveBtn}>
-          저장하기
-        </Link>
+        <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
+          저장
+        </button>
       </div>
-      <div className='Viewer'>
+      <div className='TextViewer'>
         <div className='bg-white flex f-column br-12 py-12 px-24'>
           <input
             className='unset py-12'

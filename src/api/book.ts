@@ -55,10 +55,10 @@ const bookApi = {
                 name: string;
                 text: string;
             };
-            tags?: [
-                {
-                    name: string;
-                }
+            tags?: 
+            {
+                name: string;
+            }[
             ];
         },
         url: string

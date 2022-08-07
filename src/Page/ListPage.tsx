@@ -127,9 +127,9 @@ const ListPage = () => {
                       key={index}
                       onClick={goToBookDetail(book.links.book)}
                     >
-                      <div className="bookHeader flex f-ai-end">
+                      <div className="bookHeader">
                         <h5 className="font-bold">{book.name}</h5>
-                        <span className="tc-500 ml-4 fs-14">
+                        <span className="tc-500 fs-14">
                           {new Date(book.createdAt).toLocaleString()}
                         </span>
                       </div>
