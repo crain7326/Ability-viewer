@@ -64,7 +64,8 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     optionStore.setText(bookText?.text);
     const isBookDetailPage = bookDetail.hasOwnProperty('name')
     
-    handdleCreateBook(isBookDetailPage);
+  // 이미생성됨 ? true -> update : false -> create
+  handdleSaveBook(isBookDetailPage);
   };
 
   const validationBook = function () {
@@ -92,7 +93,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
     return errorMsg
   }
 
-  const handdleCreateBook = async function (isCreated: boolean) {
+  const handdleSaveBook = async function (isCreated: boolean) {
     // 유효성 검사
     const errorMsg = validationBook();
     if (errorMsg) {
@@ -104,8 +105,20 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
     };
-
-    if (isCreated) {
+    
+    if(isCreated){
+      const updateUrl = bookDetail.link.update
+      const { data, error } = await bookApi.updateBook(inputData, updateUrl);
+      appStore.setLoading(false);
+      if (data.success === true) {
+        toast.success('업데이트 완료');
+      }
+      if (error) {
+        setNotifyMessage('error!');
+      }
+    }
+    
+    if (!isCreated) {
       const { data, error } = await bookApi.createBook(inputData);
       appStore.setLoading(false);
       if (data.success === true) {
@@ -116,18 +129,8 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
       }
     }
 
-    if(!isCreated){
-      const updateUrl = bookDetail.link.update
-      const { data, error } = await bookApi.updateBook(inputData, updateUrl);
-      appStore.setLoading(false);
-      if (data.success === true) {
-        toast.success('저장 완료');
-      }
-      if (error) {
-        setNotifyMessage('error!');
-      }
-    }
   };
+
   return (
     <>
       <ToastContainer />
