@@ -10,6 +10,7 @@ import userStorage from '../helper/localStorage';
 import indexStore from '../store/indexStore';
 
 import { AiOutlineDelete } from 'react-icons/ai';
+import { HiOutlineX } from 'react-icons/hi';
 
 const ListPage = () => {
   const { appStore } = indexStore();
@@ -98,18 +99,20 @@ const ListPage = () => {
       <div className='p-24'>
         {error && 'error!'}
         <article className='br-8 bg-white p-12 mb-8'>
-          <h3 className='px-12 py-8 font-bold '>
-            {clickedTag}{' '}{clickedTag !== "태그" && 
-            <button
-              className='unset cursor-pointer tc-400'
-              onClick={() => {
-                getAllBooks();
-                setClickedTag('태그');
-              }}
-            >
-              x
-            </button>}
-          </h3>
+          <div className='flex px-12 py-8 '>
+            <h3 className='font-bold '>{clickedTag}</h3>
+            {clickedTag !== '태그' && (
+              <button
+                className='unset cursor-pointer ml-4 tc-400'
+                onClick={() => {
+                  getAllBooks();
+                  setClickedTag('태그');
+                }}
+              >
+                <HiOutlineX />
+              </button>
+            )}
+          </div>
           <ul
             id='hashtagList'
             className='px-12 py-8 flex'
