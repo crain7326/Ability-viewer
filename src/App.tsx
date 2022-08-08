@@ -29,24 +29,24 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className='App pretendard' >
-        <div className='m-auto' style={{ maxWidth: "480px", height:"100vh"}}>
+      <div className="App pretendard">
+        <div className="m-auto" style={{ maxWidth: '480px', height: '100vh' }}>
           <Header isLogin={isLogin} setIsLogin={setIsLogin} />
           <Spinner loading={appStore.loading} />
-          <main className='bg-100'>
+          <main className="bg-100" style={{ height: 'calc(100vh - 50px)' }}>
             <Routes>
-              <Route path='/' element={<ViewerPage />} />
-              <Route path='/book/:id' element={<BookDetail />} />
-              <Route path='/viewer_all' element={<ViewerAll />} />
-              <Route path='/list' element={<ListPage />} />
-              <Route path='/mypage' element={<Mypage />} />
+              <Route path="/" element={<ViewerPage />} />
+              <Route path="/book/:id" element={<BookDetail />} />
+              <Route path="/viewer_all" element={<ViewerAll />} />
+              <Route path="/list" element={<ListPage />} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
-                path='/login'
+                path="/login"
                 element={<LoginPage setIsLogin={setIsLogin} />}
               />
-              <Route path='/signup' element={<SignupPage />} />
-              <Route path='/find_user' element={<FindUserPage />} />
-              <Route path='*' element={<NotFound />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/find_user" element={<FindUserPage />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
         </div>
