@@ -1,31 +1,15 @@
 import { api } from './api';
-import userStorage from '../helper/localStorage';
+import http from './http'
 
 const authApi = {
-  login(data: { id: string; password: string }) {
-    return api({
-      method: 'POST',
-      data,
-      url: `${process.env.REACT_APP_API_URL}/login`,
-    });
+  async login(data: { id: string, password: string }) {
+    return http.post('/login', data);
   },
   register(data: { id: string; password: string; email: string }) {
-    return api({
-      method: 'POST',
-      data: {
-        user: data,
-      },
-      url: `${process.env.REACT_APP_API_URL}/users`,
-    });
+    return http.post('/user', data);
   },
   logout() {
-    return api({
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${userStorage.getToken()}`,
-      },
-      url: `${process.env.REACT_APP_API_URL}/logout`,
-    });
+    return http.post('/logout')
   },
 };
 

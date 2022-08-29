@@ -75,7 +75,7 @@ const LoginPage = (props: { setIsLogin: Function }) => {
     }
 
     appStore.setLoading(true);
-    const { data, error } = await authApi.login({
+    const {data} = await authApi.login({
       id: loginId,
       password: loginPw,
     });
