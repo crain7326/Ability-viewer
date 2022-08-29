@@ -6,14 +6,19 @@ const instance = axios.create({
 	baseURL: process.env.REACT_APP_API_URL
 })
 
-instance.interceptors.request.use(function (config: AxiosRequestConfig) {
-	if (userStorage.getToken() !== undefined) {
-		config['headers'] = {
-			Authorization: `Bearer ${userStorage.getToken()}`
+instance.interceptors.request.use(
+	config => {
+		const token = userStorage.getToken();
+		if (token) {
+			config['headers'] = {
+				Authorization: `Bearer ${token}`
+			}
 		}
+		return config;
+	},
+	error => {
+		Promise.reject(error)
 	}
-
-	return config;
-})
+)
 
 export default instance;
