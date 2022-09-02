@@ -9,6 +9,7 @@ import Hashtag from '../common/Hashtag';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import LetterBox from '../common/LetterBox';
 
 interface ViewerFromProps {
   name?: string;
@@ -39,6 +40,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const [bookText, setBookText] = useState<{ text: string }>({
     text: bookDetail?.text ?? '',
   });
+
   // 초기 셋팅
   useEffect(() => {
     optionStore.title && setBookName({ name: optionStore.title });
@@ -128,22 +130,26 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
         setNotifyMessage('error!');
       }
     }
-
   };
 
   return (
     <>
       <ToastContainer />
       <div
-        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-end'
+        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-between'
         style={{ textAlign: 'right' }}
       >
-        <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
-          미리보기
-        </Link>
-        <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
-          저장
-        </button>
+        <div>
+          <LetterBox characters="5000"/>
+        </div>
+        <div className='flex'>
+          <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
+            미리보기
+          </Link>
+          <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
+            저장
+          </button>
+        </div>
       </div>
       <div className='TextViewer'>
         <div className='bg-white flex f-column br-12 py-12 px-24'>
