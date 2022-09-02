@@ -17,11 +17,13 @@ interface ViewerFromProps {
   tags?: { name: string }[];
   link?: { delete: '', update: '' }
 }
-const ViewerFrom = (bookDetail?: ViewerFromProps) => {
+const ViewerFrom = (bookDetail?: ViewerFromProps) =>{
   const { appStore, optionStore } = indexStore();
 
   // 에러 라이브러리 셋팅
   const [notifyMessage, setNotifyMessage] = useState<string>();
+  const [letters, setLetters] = useState<number>(0);
+
   const notify = () => toast.error(notifyMessage);
   useEffect(() => {
     if (!notifyMessage) {
@@ -52,8 +54,10 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
 
-  const onChangeBookText = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeBookText = (e: ChangeEvent<HTMLInputElement>) => {
     setBookText({ text: e.currentTarget.value });
+    setLetters(e.currentTarget.value.length)
+  }
 
   const onClickViewAllBtn = () => {
     optionStore.setTitle(bookName.name);
@@ -140,7 +144,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
         style={{ textAlign: 'right' }}
       >
         <div>
-          <LetterBox characters="5000"/>
+          <LetterBox characters={letters}/>
         </div>
         <div className='flex'>
           <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>

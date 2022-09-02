@@ -1,12 +1,12 @@
 import React from 'react'
 
 export interface LetterBoxProps {
-	characters: string;	
+	characters: number;	
 }
 
 const LetterBox = ({characters}: LetterBoxProps) => {
 	return (
-		<div>{characters} 자</div>
+		<div>공백포함 {characters} 자</div>
 	)
 }
 
