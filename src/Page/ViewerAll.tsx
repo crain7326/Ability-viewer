@@ -5,14 +5,16 @@ const ViewerAll = () => {
 
   return (
     <div className="bg-white pt-24">
+      <div className={`${optionStore.paragraphHeigth}`}>
       {optionStore.textBundle.map((text, index) => (
         <p
           key={index}
-          className={`${optionStore.fontSize} ${optionStore.lineHeigth} ${optionStore.paragraphHeigth} ${optionStore.fontFamily}`}
+          className={`${optionStore.viewerType} ${optionStore.fontSize} ${optionStore.lineHeigth}  ${optionStore.fontFamily}`}
         >
           {text}
         </p>
       ))}
+        </div>
     </div>
   );
 };
