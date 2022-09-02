@@ -9,6 +9,7 @@ import Hashtag from '../common/Hashtag';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import LetterBox from '../common/LetterBox';
 
 interface ViewerFromProps {
   name?: string;
@@ -16,11 +17,13 @@ interface ViewerFromProps {
   tags?: { name: string }[];
   link?: { delete: '', update: '' }
 }
-const ViewerFrom = (bookDetail?: ViewerFromProps) => {
+const ViewerFrom = (bookDetail?: ViewerFromProps) =>{
   const { appStore, optionStore } = indexStore();
 
   // 에러 라이브러리 셋팅
   const [notifyMessage, setNotifyMessage] = useState<string>();
+  const [letters, setLetters] = useState<number>(0);
+
   const notify = () => toast.error(notifyMessage);
   useEffect(() => {
     if (!notifyMessage) {
@@ -39,6 +42,7 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const [bookText, setBookText] = useState<{ text: string }>({
     text: bookDetail?.text ?? '',
   });
+
   // 초기 셋팅
   useEffect(() => {
     optionStore.title && setBookName({ name: optionStore.title });
@@ -50,8 +54,10 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
   const onChangeBookTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setBookName({ name: e.currentTarget.value });
 
-  const onChangeBookText = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeBookText = (e: ChangeEvent<HTMLInputElement>) => {
     setBookText({ text: e.currentTarget.value });
+    setLetters(e.currentTarget.value.length)
+  }
 
   const onClickViewAllBtn = () => {
     optionStore.setTitle(bookName.name);
@@ -128,22 +134,26 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) => {
         setNotifyMessage('error!');
       }
     }
-
   };
 
   return (
     <>
       <ToastContainer />
       <div
-        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-end'
+        className='ViewerBtn tc-500 mx-20 my-12 flex f-ai-center f-jc-between'
         style={{ textAlign: 'right' }}
       >
-        <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
-          미리보기
-        </Link>
-        <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
-          저장
-        </button>
+        <div>
+          <LetterBox characters={letters}/>
+        </div>
+        <div className='flex'>
+          <Link to='/viewer_all' className='hover:tc-900' onClick={onClickViewAllBtn}>
+            미리보기
+          </Link>
+          <button className='unset ml-12 cursor-pointer hover:tc-900'  onClick={onClickSaveBtn}>
+            저장
+          </button>
+        </div>
       </div>
       <div className='TextViewer'>
         <div className='bg-white flex f-column br-12 py-12 px-24'>
