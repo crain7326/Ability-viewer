@@ -22,9 +22,9 @@ class OptionStore {
   static exist = false;
   static instance: any;
 
-  fontSizeNum = 5;
-  paragraphHeigthNum = 1;
-  lineHeigthNum = 1;
+  fontSizeNum = 6;
+  paragraphHeigthNum = 3;
+  lineHeigthNum = 3;
 
   // 글꼴
   fontFamily: FontFamily = 'KoPub 바탕';
