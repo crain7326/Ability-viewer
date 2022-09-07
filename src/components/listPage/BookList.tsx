@@ -6,6 +6,7 @@ import Hashtag from '../common/Hashtag';
 import indexStore from '../../store/indexStore';
 import bookApi from '../../api/book';
 import { useEffect, useState } from 'react';
+import PaginationButton from '../Button/Pagination';
 
 export default function BookItem(props: {
   books: BookEntity[];
@@ -15,8 +16,11 @@ export default function BookItem(props: {
   const { appStore } = indexStore();
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
-  const [pageView, setPageView] = useState(5);
+  const [pageView] = useState(10);
   const navigation = useNavigate();
+  
+  
+
   const goToBookDetail = (link: string) => () => {
     const bookId = link.split('books/')[1];
     navigation(`/book/${bookId}`);
@@ -48,19 +52,22 @@ export default function BookItem(props: {
 
   function onClickPrev() {
     if (isStartIndex(start)) {
-      console.log('첫번째 페이지 입니다.');
-      return;
+      return '첫번째 페이지 입니다.';
     }
     setStart((cur) => cur - pageView);
     setEnd((cur) => cur - pageView);
   }
   function onClickNext() {
     if (isEndIndex(props.books, end)) {
-      console.log('마지막 페이지 입니다.');
-      return;
+      return '마지막 페이지 입니다.';
     }
     setStart((cur) => cur + pageView);
     setEnd((cur) => cur + pageView);
+  }
+
+  function setStartEndIndex(start: number, end: number) {
+    setStart((cur) => cur = start);
+    setEnd((cur) => cur = end);
   }
 
   useEffect(() => {
@@ -70,11 +77,7 @@ export default function BookItem(props: {
 
   const bookList = props.books.slice(start, end);
   return (
-    <div
-      style={{
-        overflow: 'hidden',
-      }}
-    >
+    <div>
       <ul>
         {bookList.map((book, index) => (
           <li
@@ -116,17 +119,7 @@ export default function BookItem(props: {
           </li>
         ))}
       </ul>
-      <div
-        style={{
-          background: '#ddd',
-          position: 'absolute',
-          left: 'calc(50% - 40px)',
-          bottom: '20px',
-        }}
-      >
-        <button onClick={onClickPrev}>prev</button>
-        <button onClick={onClickNext}>next</button>
-      </div>
+      <PaginationButton onClickPrev={onClickPrev} onClickNext={onClickNext} onClickIndex={setStartEndIndex} buttonListLength={props.books.length} pageView={pageView} />
     </div>
   );
 }

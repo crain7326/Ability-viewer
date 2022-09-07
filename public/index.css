@@ -746,3 +746,32 @@ body {
 .btn-book-delete:hover {
   background-color: #d4d4d8;
 }
+
+.btn_pagination_wrap {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.btn_pagination_wrap button {
+  all: unset;
+  padding: 6px;
+  cursor: pointer;
+  transition: .3s;
+  margin: 0 5px;
+}
+
+.btn_pagination_wrap .btn_pagination {
+  border: 1px solid transparent;
+}
+
+.btn_pagination_wrap button:active {
+  border-color: var(--gray--100);
+}
+
+.btn_pagination_wrap button:hover {
+  border-color: var(--gray--300);
+}
+
+.btn_pagination_wrap .btn_pagination_active {
+  border-color: var(--gray--300);
+}
