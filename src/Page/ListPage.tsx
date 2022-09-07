@@ -6,14 +6,11 @@ import Hashtag from '../components/common/Hashtag';
 import bookApi from '../api/book';
 import { BookEntity } from '../api/book.dto';
 import userStorage from '../helper/localStorage';
-import indexStore from '../store/indexStore';
 
 import { HiOutlineX } from 'react-icons/hi';
 import BookItem from '../components/listPage/BookList';
 
 const ListPage = () => {
-  const { appStore } = indexStore();
-
   const [books, setBooks] = useState<BookEntity[]>([]);
   const [tags, setTags] = useState<
     { name: string; links: { books: string } }[]
@@ -22,16 +19,11 @@ const ListPage = () => {
   const [error, setError] = useState<AxiosError | boolean>();
 
   const getAllBooks = async () => {
-    appStore.setLoading(true);
-    const { data, error } = await bookApi.getAllBooks();
-    appStore.setLoading(false);
-
-    if (data) {
-      const books: BookEntity[] = data.books as BookEntity[];
+    try {
+      const data = await bookApi.getAllBooks();
+      const books: BookEntity[] = data.books;
       setBooks(books);
-    }
-
-    if (error) {
+    } catch (error) {
       setError(error);
     }
   };
@@ -40,29 +32,22 @@ const ListPage = () => {
     name: string;
     links: { books: string };
   }) => {
-    appStore.setLoading(true);
-    const { data, status } = await bookApi.getBookByTag(tag.links.books);
-    appStore.setLoading(false);
-
-    if (status === 500) {
-      setError(true);
-      return;
-    }
+    const data = await bookApi.getBookByTag(tag.links.books);
+    console.log(data);
 
     const books: BookEntity[] = data.books as BookEntity[];
     setBooks(books);
   };
 
   const combineTags = async () => {
-    console.log('combine');
     const token = userStorage.getToken();
     if (!token) {
       return;
     }
-    const { data, error } = await bookApi.getTagByBook();
-    setTags(data.tags);
-
-    if (error) {
+    try {
+      const data = await bookApi.getTagByBook();
+      setTags(data.tags);
+    } catch (error) {
       setError(error);
     }
   };

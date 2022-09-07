@@ -3,7 +3,6 @@ import { BookEntity } from '../../api/book.dto';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 import Hashtag from '../common/Hashtag';
-import indexStore from '../../store/indexStore';
 import bookApi from '../../api/book';
 import { useEffect, useState } from 'react';
 import PaginationButton from '../Button/Pagination';
@@ -13,13 +12,10 @@ export default function BookItem(props: {
   getAllBooks: Function;
   setError: Function;
 }) {
-  const { appStore } = indexStore();
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
   const [pageView] = useState(10);
   const navigation = useNavigate();
-  
-  
 
   const goToBookDetail = (link: string) => () => {
     const bookId = link.split('books/')[1];
@@ -29,15 +25,12 @@ export default function BookItem(props: {
     e.stopPropagation();
     if (!window.confirm('삭제하시겠습니까?')) return;
 
-    appStore.setLoading(true);
-    const { data, error } = await bookApi.deleteBook(link);
-    appStore.setLoading(false);
-
-    if (error) {
-      props.setError(error);
+    try {
+      await bookApi.deleteBook(link);
+      props.getAllBooks();
+    } catch (error) {
+      props.setError(error)
     }
-
-    props.getAllBooks();
   };
 
   function isStartIndex(index: number) {

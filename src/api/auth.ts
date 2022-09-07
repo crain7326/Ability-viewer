@@ -1,15 +1,22 @@
-import { api } from './api';
 import http from './http'
 
+interface ResponseLogin {
+  id: string;
+  links: {
+    user: string;
+  };
+  token: string;
+}
+
 const authApi = {
-  async login(data: { id: string, password: string }) {
-    return http.post('/login', data);
+  async login(data: { id: string, password: string }): Promise<ResponseLogin> {
+    return await http.post('/login', data);
   },
-  register(data: { id: string; password: string; email: string }) {
-    return http.post('/user', data);
+  async register(data: { id: string; password: string; email: string }) {
+    return await http.post('/user', data);
   },
-  logout() {
-    return http.post('/logout')
+  async logout() {
+    return await http.post('/logout')
   },
 };
 

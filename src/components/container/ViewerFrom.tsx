@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HashtagInput from './HashtagInput';
 import bookApi from '../../api/book';
@@ -18,7 +18,7 @@ interface ViewerFromProps {
   link?: { delete: '', update: '' }
 }
 const ViewerFrom = (bookDetail?: ViewerFromProps) =>{
-  const { appStore, optionStore } = indexStore();
+  const { optionStore } = indexStore();
 
   // 에러 라이브러리 셋팅
   const [notifyMessage, setNotifyMessage] = useState<string>();
@@ -68,10 +68,10 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) =>{
 
   const onClickSaveBtn = () => {
     optionStore.setText(bookText?.text);
-    const isBookDetailPage = bookDetail.hasOwnProperty('name')
+    const isBookDetailPage = bookDetail?.hasOwnProperty('name') || false;
     
-  // 이미생성됨 ? true -> update : false -> create
-  handdleSaveBook(isBookDetailPage);
+    // 이미생성됨 ? true -> update : false -> create
+    handdleSaveBook(isBookDetailPage);
   };
 
   const validationBook = function () {
@@ -106,31 +106,30 @@ const ViewerFrom = (bookDetail?: ViewerFromProps) =>{
       return;
     }
 
-    appStore.setLoading(true);
     const inputData = {
       book: { ...bookName, ...bookText },
       tags: [...bookTags],
     };
     
-    if(isCreated){
-      const updateUrl = bookDetail.link.update
-      const { data, error } = await bookApi.updateBook(inputData, updateUrl);
-      appStore.setLoading(false);
-      if (data.success === true) {
-        toast.success('업데이트 완료');
-      }
-      if (error) {
+    if (isCreated) {
+      const updateUrl = bookDetail?.link?.update
+      try {
+        const data = await bookApi.updateBook(inputData, updateUrl || "");
+        if (data.success) {
+          toast.success('업데이트 완료')
+        };
+      } catch (error) {
         setNotifyMessage('error!');
       }
     }
     
     if (!isCreated) {
-      const { data, error } = await bookApi.createBook(inputData);
-      appStore.setLoading(false);
-      if (data.success === true) {
-        toast.success('저장 완료');
-      }
-      if (error) {
+      try {
+        const data = await bookApi.createBook(inputData);
+        if (data.success === true) {
+          toast.success('저장 완료');
+        }
+      } catch (error) {
         setNotifyMessage('error!');
       }
     }
