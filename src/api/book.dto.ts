@@ -29,3 +29,12 @@ export interface BookDetailEntity {
   };
   tags: { name: string }[];
 }
+
+export interface TagsDto {
+  tags: {
+    name: string;
+    links: {
+      books: string;
+    }
+  }[]
+}

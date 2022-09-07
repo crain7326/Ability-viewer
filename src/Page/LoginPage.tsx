@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // router
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // api
 import authApi from '../api/auth';
@@ -11,21 +11,11 @@ import storage from '../helper/localStorage';
 
 // component
 import LabelInput from '../components/common/LabelInput';
-import indexStore from '../store/indexStore';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-interface ResponseLogin {
-  id: string;
-  links: {
-    user: string;
-  };
-  token: string;
-}
-
 const LoginPage = (props: { setIsLogin: Function }) => {
-  const { appStore } = indexStore();
   let navigate = useNavigate();
 
   const [loginId, setLoginId] = useState('');
@@ -74,21 +64,16 @@ const LoginPage = (props: { setIsLogin: Function }) => {
       return;
     }
 
-    appStore.setLoading(true);
-    const {data} = await authApi.login({
-      id: loginId,
-      password: loginPw,
-    });
-    appStore.setLoading(false);
-
-    if (data) {
+    try {
+      const data = await authApi.login({
+        id: loginId,
+        password: loginPw,
+      });
       props.setIsLogin(true);
       storage.setToken(data.token);
       storage.setUserId(data.id);
       navigate('/', { replace: true });
-    }
-
-    if (error) {
+    } catch (error) {
       setErrorMessage('아이디 또는 비밀번호를 다시 확인해주세요.');
     }
   };

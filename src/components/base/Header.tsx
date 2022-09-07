@@ -4,10 +4,10 @@ import userStore from '../../helper/localStorage';
 import authApi from '../../api/auth';
 
 const Header = (props: { isLogin: boolean; setIsLogin: Function }) => {
-  const handleLogout = () => {
+  const handleLogout = async () => {
     props.setIsLogin(false);
     userStore.clear();
-    authApi.logout();
+    await authApi.logout();
   };
 
   return (

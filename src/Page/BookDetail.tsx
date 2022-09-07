@@ -15,7 +15,7 @@ import Toggle from '../components/Button/Toggle';
 import ViewerFrom from '../components/container/ViewerFrom';
 
 const BookDetail = () => {
-  const { optionStore, appStore } = indexStore();
+  const { optionStore } = indexStore();
   const { id } = useParams();
   const [bookDetail, setBookDetail] = useState<BookDetailEntity>({
     links: { delete: '', update: '' },
@@ -29,16 +29,11 @@ const BookDetail = () => {
   };
 
   const fetchBookDetail = async () => {
-    appStore.setLoading(true);
-    const { data, error } = await bookApi.getBookById(id as string);
-    appStore.setLoading(false);
-
-    if (error) {
-      setError(error);
-    }
-
-    if (data) {
+    try {
+      const data = await bookApi.getBookById(id as string);
       setBookDetail(data.book);
+    } catch (error) {
+      setError(error);
     }
   };
 

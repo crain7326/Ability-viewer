@@ -10,10 +10,8 @@ import PrivacyForm from '../components/container/PrivacyForm';
 
 // api
 import authApi from '../api/auth';
-import indexStore from '../store/indexStore';
 
 const SignupPage = () => {
-  const { appStore } = indexStore();
   const navigate = useNavigate();
   const [user, setUser] = useState({
     id: '',
@@ -30,19 +28,14 @@ const SignupPage = () => {
   };
 
   async function handleRegister() {
-    appStore.setLoading(true);
-    const { data, error } = await authApi.register({
-      id: user.id,
-      email: user.email,
-      password: user.pw,
-    });
-    appStore.setLoading(false);
-
-    if (data) {
+    try {
+      await authApi.register({
+        id: user.id,
+        email: user.email,
+        password: user.pw,
+      });
       navigate('/login', { replace: true });
-    }
-
-    if (error) {
+    } catch (error) {
       setError(error);
     }
   }
